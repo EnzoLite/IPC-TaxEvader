@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.view.LogInController">
+   <center>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" StackPane.alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Log in" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <TextField fx:id="nickNameInput" onKeyTyped="#onTextTyped" promptText="Nickname" />
+                              <Label fx:id="nickNameErrorText" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <PasswordField fx:id="passwordInput" promptText="Password" />
+                              <Label fx:id="passwordErrorText" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onButtonPressed" text="Log In" />
+                     </children>
+                     <padding>
+                        <Insets left="200.0" right="200.0" />
+                     </padding>
+                  </VBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Text fx:id="signupText" strokeType="OUTSIDE" strokeWidth="0.0" text="If you do not have an account yet, sign up here:" />
+                        <Button fx:id="signupButton" mnemonicParsing="false" text="Sign Up" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+   <top>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="App title" />
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
