@@ -1,0 +1,58 @@
+#back{
+    -fx-background-color: #1E1E3F;
+    -fx-background-radius: 12;
+}
+#front{
+    -fx-background-color: #1E1E3F;
+    -fx-background-radius: 12;
+    -fx-alignment: center;
+}
+#title{
+    -fx-font-size: 48;
+    -fx-text-fill: #FFD700;
+}
+#us{
+    -fx-font-size: 24;
+    -fx-text-fill: #FFD700;
+}
+#ps{
+    -fx-font-size: 24;
+    -fx-text-fill: #FFD700;
+}
+#inputUs{
+    -fx-background-color: #3f3f70;
+    -fx-text-fill: #9c8403;
+    -fx-prompt-text-fill: #9c8403;
+    -fx-alignment: center;
+}
+#inputPass{
+    -fx-background-color: #3f3f70;
+    -fx-text-fill: #9c8403;
+    -fx-prompt-text-fill: #9c8403;
+    -fx-alignment: center;
+}
+#notMem{
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 14;
+}
+#logInSelector{
+
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 14;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
+#logInSelector:hover{
+
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 16;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
+#signInSelector{
+
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 14;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
