@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -19,17 +20,31 @@ public class JavaFXMLApplication extends Application {
         //======================================================================
         // 1- creación del grafo de escena a partir del fichero FXML
         FXMLLoader loader= new  FXMLLoader(getClass().getResource("logIn.fxml"));
-        Parent root = loader.load();
         //======================================================================
         // 2- creación de la escena con el nodo raiz del grafo de escena
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(loader.load());
         //======================================================================
         // 3- asiganación de la escena al Stage que recibe el metodo 
         //     - configuracion del stage
         //     - se muestra el stage de manera no modal mediante el metodo show()
+        LogInController logInController = loader.getController();
         stage.setScene(scene);
         stage.setTitle("start PROJECT - IPC:");
+        stage.setMinHeight(550);
+        stage.setMinWidth(364);
         stage.show();
+        logInController.arrInizialiter();
+        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            logInController.adjustW();
+        });
+        scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            logInController.adjustH();
+        });
+        stage.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+            System.out.println(stage.getWidth());
+            logInController.adjustW();
+            logInController.adjustH();
+        });
     }
 
     /**
