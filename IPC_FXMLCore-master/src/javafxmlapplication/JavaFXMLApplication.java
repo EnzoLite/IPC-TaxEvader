@@ -19,15 +19,16 @@ public class JavaFXMLApplication extends Application {
     public void start(Stage stage) throws Exception {
         //======================================================================
         // 1- creación del grafo de escena a partir del fichero FXML
-        FXMLLoader loader= new  FXMLLoader(getClass().getResource("logIn.fxml"));
+        FXMLLoader loader= new  FXMLLoader(getClass().getResource("MainScene.fxml"));
         //======================================================================
         // 2- creación de la escena con el nodo raiz del grafo de escena
         Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
         //======================================================================
         // 3- asiganación de la escena al Stage que recibe el metodo 
         //     - configuracion del stage
         //     - se muestra el stage de manera no modal mediante el metodo show()
-        LogInController logInController = loader.getController();
+        /*LogInController logInController = loader.getController();
         stage.setScene(scene);
         stage.setTitle("start PROJECT - IPC:");
         stage.setMinHeight(550);
@@ -44,7 +45,10 @@ public class JavaFXMLApplication extends Application {
             System.out.println(stage.getWidth());
             logInController.adjustW();
             logInController.adjustH();
-        });
+        });*/
+        stage.show();
+        FXMLDocumentController controller = loader.getController();
+        controller.trueInit();
     }
 
     /**

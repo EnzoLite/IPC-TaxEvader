@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styleMain.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.FXMLDocumentController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="whole" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <AnchorPane fx:id="leftMenu" prefHeight="200.0" prefWidth="200.0" />
-            <AnchorPane fx:id="bigScreen" prefHeight="400.0" prefWidth="404.0" />
+            <AnchorPane fx:id="leftMenu" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseEntered="#enteredM" onMouseExited="#exitedM">
+               <children>
+                  <Label fx:id="menuButton1" prefHeight="59.0" prefWidth="195.0" text="Button1" textFill="WHITE" />
+                  <Label fx:id="menuButton2" layoutY="59.0" prefHeight="59.0" prefWidth="195.0" text="Button1" textFill="WHITE" />
+                  <Label fx:id="menuButton3" layoutY="118.0" prefHeight="59.0" prefWidth="195.0" text="Button1" textFill="WHITE" />
+               </children></AnchorPane>
+            <ScrollPane fx:id="scrollPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="410.0">
+               <content>
+                  <AnchorPane fx:id="back" prefHeight="398.0" prefWidth="403.0">
+                     <children>
+                        <ListView fx:id="listV" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="399.0" />
+                        <ComboBox fx:id="comboBox" layoutX="249.0" layoutY="77.0" prefWidth="150.0" />
+                        <Text fx:id="title" fill="#13305e" layoutX="42.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories" wrappingWidth="301.6759948730469" />
+                        <Label fx:id="orderB" layoutX="187.0" layoutY="81.0" text="Order by:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
          </children>
       </HBox>
    </children>

@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 
 public class LogInController implements Initializable{
     
@@ -127,6 +128,8 @@ public class LogInController implements Initializable{
     void changeScene(ActionEvent event) {
         try{
             Stage registerStage = new Stage();
+            registerStage.setResizable(false);
+            // Ajustar tamaño
             FXMLLoader loader= new  FXMLLoader(getClass().getResource("SignUpName.fxml"));
             Parent root = loader.load();
             //======================================================================
@@ -153,7 +156,7 @@ public class LogInController implements Initializable{
             correctPass = false;
             logInSelector.setDisable(true);
             messageE |= 1;
-            messages.setText("Spaces are not allowed in this field");
+            messages.setText("Spaces are not allowed for the password field");
         }else{
             
             correctPass = true;
@@ -197,7 +200,8 @@ public class LogInController implements Initializable{
         }else{ 
             correctUs = true; 
             messageE &= 1;
-            if((messageE) == 1){ messages.setText("Spaces are not allowed in this field");}
+            messages.setText("");
+            if((messageE) == 1){ messages.setText("Spaces are not allowed for the password field");}
         }
     }
 
@@ -286,24 +290,34 @@ public class LogInController implements Initializable{
         }
     }
     @FXML
-    void forgotPass(MouseEvent event) {
+    void forgotPass(MouseEvent event) throws RuntimeException{
         try{
             Stage stage = new Stage();
             FXMLLoader loader= new  FXMLLoader(getClass().getResource("SignUpName.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Register--MyExpenses");
+            stage.setTitle("Forgotten password");
             stage.setResizable(false);
             stage.setWidth(600);
             stage.setHeight(300);
-
-            stage.show();
+            Stage origin = (Stage)back.getScene().getWindow();
+            stage.initOwner(origin);             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.showAndWait();
+            try{
+                if(Acount.getInstance() != null)
+                {
+                    FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("MainScene.fxml"));
+                    Scene app = new Scene(loader2.load());
+                    stage.setScene(app);
+                }
+            }catch(model.AcountDAOException e){}
             
             
         }catch(IOException e)
         {
-            System.out.println("Email not found");
+            throw new RuntimeException("FXML file could not be found");
         }
 
     }
