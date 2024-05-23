@@ -5,7 +5,10 @@
         <group>
             <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/styleMain.css</file>
             <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/JavaFXMLApplication.java</file>
+            <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/logInStyle.css</file>
+            <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/logIn.fxml</file>
             <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/FXMLDocumentController.java</file>
+            <file>file:/home/marcos/Documentos/IPCProject/IPC_FXMLCore-master/src/javafxmlapplication/PruebaController.java</file>
         </group>
     </open-files>
 </project-private>

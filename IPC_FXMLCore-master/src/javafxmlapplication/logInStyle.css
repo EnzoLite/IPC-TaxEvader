@@ -1,8 +1,8 @@
 #back{
-    -fx-background-color: #1E1E3F;
+    -fx-background-color: #1E1E30;
 }
 #front{
-    -fx-background-color: #1E1E30;
+    -fx-background-color: #13305e;
     -fx-background-radius: 12;
     -fx-alignment: center;
 }

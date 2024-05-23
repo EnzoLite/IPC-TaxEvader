@@ -151,6 +151,7 @@ public class LogInController implements Initializable{
     @FXML
     void correctKeyPass(KeyEvent event) {
         String password = inputPass.getText();
+        if(password.length() == 0){ correctPass = false; logInSelector.setDisable(true); return; }
         if(password.contains(" "))
         {
             correctPass = false;
