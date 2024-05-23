@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -181,7 +183,13 @@ public class SignUpNameController implements Initializable {
             date = LocalDate.now();
             
             signUp.getInstance().registerUser(name, surname, email, nickName, password, image, date);
+            Alert a = new Alert(AlertType.INFORMATION);
+            a.setTitle("Sign up succeeded");
+            a.setHeaderText("You have signed up");
+            a.setContentText("Please log in and start documenting your expenses now");
+            a.showAndWait();
             
+            backButton.getScene().getWindow().hide();
             /*FXMLLoader myFXMLLoader = new FXMLLoader(getClass().getResource(""));
             Parent root = myFXMLLoader.load();
         
