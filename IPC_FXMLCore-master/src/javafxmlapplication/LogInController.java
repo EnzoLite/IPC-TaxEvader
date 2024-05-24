@@ -3,7 +3,10 @@ package javafxmlapplication;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.stage.Stage;
 import model.Acount;
 
@@ -15,13 +18,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -63,6 +71,8 @@ public class LogInController implements Initializable{
     @FXML
     private Text messages;
     
+    Pane notUsable;
+    
     byte messageE = 0;
     private Node a[] = new Node[9];
     private Double[] ratiosX = new Double[9];
@@ -75,6 +85,10 @@ public class LogInController implements Initializable{
     {
         /*Stage stage = new Stage();
         stage.setResizable(false);*/
+        notUsable = new Pane();
+        back.getChildren().add(notUsable);
+        notUsable.setStyle("-fx-background-color: gray;");
+        notUsable.setVisible(false);
         messages.setFill(Color.RED);
         signUpSelector.setPrefSize(80.0,42.0);
         fixItems(signUpSelector);
@@ -127,11 +141,15 @@ public class LogInController implements Initializable{
     @FXML
     void changeScene(ActionEvent event) {
         try{
+            Stage origin = (Stage)back.getScene().getWindow();
             Stage registerStage = new Stage();
             registerStage.setResizable(false);
             // Ajustar tamaño
+            registerStage.initOwner(origin);             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
+            registerStage.initModality(Modality.WINDOW_MODAL);
             FXMLLoader loader= new  FXMLLoader(getClass().getResource("SignUpName.fxml"));
             Parent root = loader.load();
+            
             //======================================================================
             // 2- creación de la escena con el nodo raiz del grafo de escena
             Scene scene = new Scene(root);
@@ -141,11 +159,14 @@ public class LogInController implements Initializable{
             //     - se muestra el stage de manera no modal mediante el metodo show()
             registerStage.setScene(scene);
             registerStage.setTitle("Register--MyExpenses");
-            registerStage.show();
+            notUsable.setPrefSize(back.getWidth(), back.getHeight());
+            notUsable.setVisible(true);
+            notUsable.setOpacity(0.5);
+            registerStage.showAndWait();
         }catch(Exception e)
         {
             messages.setText("Register scene could not be found");
-        }
+        }finally{ notUsable.setVisible(false); }
     }
     
     @FXML
@@ -209,6 +230,30 @@ public class LogInController implements Initializable{
     @FXML
     void enterApp(ActionEvent event) {
         String pass = inputPass.getText(), username = inputUs.getText();
+        Stage stage1 = (Stage)inputPass.getScene().getWindow();
+        
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+            Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
+            FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
+            stage1.setScene(scene);
+            controller.setControllerL(controller);
+            scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            controller.adjustW();
+            });
+            scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+                controller.adjustH();
+            });
+            stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+                controller.adjustW();
+                controller.adjustH();
+            });
+            return; 
+        }catch(IOException e){ e.printStackTrace(); }
+        
+        
+        
         if(pass.length() == 0 || username.length() == 0)
         {
             messages.setText("All fields must be filled.");
@@ -292,34 +337,24 @@ public class LogInController implements Initializable{
     }
     @FXML
     void forgotPass(MouseEvent event) throws RuntimeException{
-        try{
-            Stage stage = new Stage();
-            FXMLLoader loader= new  FXMLLoader(getClass().getResource("SignUpName.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Forgotten password");
-            stage.setResizable(false);
-            stage.setWidth(600);
-            stage.setHeight(300);
-            Stage origin = (Stage)back.getScene().getWindow();
-            stage.initOwner(origin);             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.showAndWait();
-            try{
-                if(Acount.getInstance() != null)
-                {
-                    FXMLLoader loader2 = new  FXMLLoader(getClass().getResource("MainScene.fxml"));
-                    Scene app = new Scene(loader2.load());
-                    stage.setScene(app);
-                }
-            }catch(model.AcountDAOException e){}
-            
-            
-        }catch(IOException e)
+        
+        notUsable.setPrefSize(back.getWidth(), back.getHeight());
+        notUsable.setVisible(true);
+        notUsable.setOpacity(0.5);
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Recovery password");
+        dialog.setHeaderText("An email to change the password will be sent to your email");
+        dialog.setContentText("Input your username");
+        Optional<String> output = dialog.showAndWait();
+        if(output.isPresent())
         {
-            throw new RuntimeException("FXML file could not be found");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Email sent");
+            alert.setHeaderText(null);
+            alert.setContentText("An email to recover the account associated with the email "+output.get()+" has been sent");
+            alert.showAndWait();
         }
+        notUsable.setVisible(false);
 
     }
 }
