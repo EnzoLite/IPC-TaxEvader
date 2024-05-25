@@ -15,12 +15,12 @@
             <Label fx:id="title" layoutX="43.0" layoutY="41.0" text="MyExpenses" />
             <Label fx:id="us" layoutX="125.0" layoutY="157.0" text="Username" />
             <Label fx:id="ps" layoutX="129.0" layoutY="251.0" text="Password" />
+            <TextField fx:id="inputUs" layoutX="57.0" layoutY="205.0" onKeyReleased="#correctKeyUs" prefHeight="26.0" prefWidth="253.0" promptText="Input username" />
+            <PasswordField fx:id="inputPass" layoutX="57.0" layoutY="294.0" onKeyReleased="#correctKeyPass" prefHeight="26.0" prefWidth="253.0" promptText="Input password" />
             <Label fx:id="notMem" layoutX="116.0" layoutY="331.0" onMouseClicked="#forgotPass" text="Forgot password?">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Label>
-            <TextField fx:id="inputUs" layoutX="57.0" layoutY="205.0" onKeyReleased="#correctKeyUs" prefHeight="26.0" prefWidth="253.0" promptText="Input username" />
-            <PasswordField fx:id="inputPass" layoutX="57.0" layoutY="294.0" onKeyReleased="#correctKeyPass" prefHeight="26.0" prefWidth="253.0" promptText="Input password" />
             <Button fx:id="logInSelector" layoutX="135.0" layoutY="378.0" mnemonicParsing="false" onAction="#enterApp" prefHeight="42.0" prefWidth="80.0" text="Log in">
                <cursor>
                   <Cursor fx:constant="HAND" />

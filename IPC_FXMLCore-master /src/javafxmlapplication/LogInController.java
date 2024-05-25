@@ -75,6 +75,8 @@ public class LogInController implements Initializable{
     @FXML
     private Text messages;
     
+    private static LogInController controllerLogIn;
+    
     Pane notUsable;
     
     byte messageE = 0;
@@ -84,6 +86,14 @@ public class LogInController implements Initializable{
     private final double ogWindowX = 364.0, ogWindowY = 518.0;
     private boolean correctUs = false, correctPass = false;
     
+    public static void setLogInController(LogInController controller)
+    {
+        controllerLogIn = controller;
+    }
+    public static LogInController getLogInController()
+    {
+        return controllerLogIn;
+    }
     @Override
     public void initialize(URL url,  ResourceBundle rb)
     {
@@ -409,5 +419,16 @@ public class LogInController implements Initializable{
         }
         notUsable.setVisible(false);
 
+    }
+    public Scene getScene()
+    {
+        return back.getScene();
+    }
+    public void emptyFields()
+    {
+        inputUs.setText("");
+        inputPass.setText("");
+        logInSelector.setDisable(true);
+        
     }
 }

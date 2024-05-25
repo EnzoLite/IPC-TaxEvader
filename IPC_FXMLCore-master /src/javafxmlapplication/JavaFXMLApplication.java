@@ -34,6 +34,7 @@ public class JavaFXMLApplication extends Application {
         stage.show();
         LogInController logInController = loader.getController();
         logInController.arrInizialiter();
+        LogInController.setLogInController(logInController);
         scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             logInController.adjustW();
         });

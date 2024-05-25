@@ -24,6 +24,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.util.Duration;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -55,6 +57,15 @@ public class FXMLDocumentController implements Initializable{
     
     @FXML
     private ScrollPane scrollPane;
+    
+    @FXML
+    private ImageView photo;
+    
+    @FXML
+    private ImageView logOut;
+    
+    @FXML
+    private Button buttonOut;
     
     private int counterObj;
     
@@ -99,12 +110,26 @@ public class FXMLDocumentController implements Initializable{
             account = Acount.getInstance();
             //account.registerUser("M", "M", "M", "M", "M", null, LocalDate.now());
             account.logInUserByCredentials("M","M");
+            Image image = account.getLoggedUser().getImage();
+            if( image == null ){
+                photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
+            }else{
+                photo.setImage(image);
+            }
+            //Image image2 = new Image("../../resources/images/fotoLogOut.jpg");
+            //logOut.setImage(image2);
             List<Category> cats = account.getUserCategories();
             for( int i = 0 ; i < cats.size() ; i++)
             {
                 account.removeCategory(cats.get(i));
             }
-            
+            buttonOut.setOnAction((c)->{
+                account.logOutUser();
+                LogInController contr = LogInController.getLogInController();
+                contr.emptyFields();
+                Scene sceneL = contr.getScene();
+                ((Stage)grid.getScene().getWindow()).setScene(sceneL);
+            });
             
             listCat = account.getUserCategories();
             listNodes = new ArrayList<Node>(50);
@@ -114,7 +139,6 @@ public class FXMLDocumentController implements Initializable{
             rowC.setMaxHeight(Double.MAX_VALUE);
         }catch( AcountDAOException e){e.printStackTrace();}
         catch(IOException e){e.printStackTrace();}
-        
     }
     void addButtons() throws IOException
     {
