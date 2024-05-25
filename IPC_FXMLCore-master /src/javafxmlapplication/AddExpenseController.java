@@ -4,6 +4,7 @@
  */
 package javafxmlapplication;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -14,8 +15,10 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
@@ -23,7 +26,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import model.Category;
 import model.Charge;
 import model.Acount;
@@ -62,6 +67,25 @@ public class AddExpenseController implements Initializable {
     private Category category;
     private Charge charge;
     Acount signUp;
+    List<Category> categories;
+    @FXML
+    private BorderPane back;
+    @FXML
+    private Label Title;
+    @FXML
+    private Label cost_css;
+    @FXML
+    private Label date_css;
+    @FXML
+    private Label title_name;
+    @FXML
+    private Label category_css;
+    @FXML
+    private Label image_css;
+    @FXML
+    private Label description_css;
+    @FXML
+    private Button ticketButton;
 
     /**
      * Initializes the controller class.
@@ -91,7 +115,7 @@ public class AddExpenseController implements Initializable {
     @FXML
     private void onCategoryPicker(ActionEvent event) {
         try{
-            List<Category> categories = signUp.getUserCategories();
+            categories = signUp.getUserCategories();
             for(int i = 0; i < categories.size(); i++){
                 MenuItem item = new MenuItem(category.getName());
                 categoryPicker.getItems().addAll(item);
@@ -125,11 +149,22 @@ public class AddExpenseController implements Initializable {
 
     @FXML
     private void onDatePicker(ActionEvent event) {
-        costDate = datePicker.getValue();
+        LocalDate today = LocalDate.now();
+        if(datePicker.getValue().isAfter(today)) errorMessage.setText("Did you travel back in time?");
+        else costDate = datePicker.getValue();
     }
 
     @FXML
     private void onTicket(MouseEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg"));
+        File selectedFile = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+        try{
+            ticket.setImage(new Image(selectedFile.toURI().toURL().toExternalForm()));
+        }catch(Exception e){
+            
+        }
         Ticket = ticket.getImage();
     }
     
@@ -138,13 +173,17 @@ public class AddExpenseController implements Initializable {
         
         try{
             if(signUp.registerCharge(title, description, cost, 0, Ticket, costDate, category)){
+                //categories.setPrice(categoryPicker.getText());
                 acceptButton.getScene().getWindow().hide();
             }
             else{
-                errorMessage.setText("A field was wrongly introduced");
+                if(title == "") errorMessage.setText("You need to fill the Title field");
+                else if(description == "") errorMessage.setText("You need to fill the Description field");
+                else if(costDate == null) errorMessage.setText("You need to fill the Date field");
+                else if(category == null) errorMessage.setText("You need to fill the Category field");
             }
         }catch(Exception e){
-            errorMessage.setText("A field was wrongly introduced");
+            
         }
     }
 
