@@ -26,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Acount;
@@ -54,7 +55,7 @@ public class FXMLDocumentController implements Initializable{
     
     private int counterObj;
     
-    private Pane animatedPanel;
+    private VBox animatedPanel;
     private RowConstraints rowC = new RowConstraints();
     List<Node> listNodes;
     List<PruebaController> listCont;
@@ -84,6 +85,7 @@ public class FXMLDocumentController implements Initializable{
         stage.setMinHeight(500);
         stage.setMinWidth(600);
         stage.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+            scrollPane.setPrefHeight(grid.getScene().getHeight());
             grid.setPrefHeight(177+120*(grid.getRowCount()-2));
         });
     }
@@ -190,92 +192,62 @@ public class FXMLDocumentController implements Initializable{
         if (animatedPanel != null) {
             grid.getChildren().remove(animatedPanel);
         }
-        animatedPanel = new Pane();
+        
+        //BlockingPane
+        Button blockingPane = new Button();
+        blockingPane.setOpacity(0.5);
+        blockingPane.setScaleY(1);
+        blockingPane.setScaleX(1);
+        blockingPane.setPrefHeight(back.getHeight());
+        blockingPane.setPrefWidth(back.getWidth());
+        blockingPane.setStyle("-fx-background-color: white");
+        blockingPane.setVisible(true);
+        back.getChildren().add(blockingPane);
+        
+        //AnimatedPanel
+        animatedPanel = new VBox();
         animatedPanel.setScaleY(0);
         back.getChildren().add(animatedPanel);
-        animatedPanel.setStyle("-fx-background-color: lightblue;");
-
+        animatedPanel.setStyle("-fx-background-color: lightgray;");
+        
+        //Button creation
+        Button createCat = new Button("Create new category");
+        Button createCharge = new Button("Create new charge");
+        Button exits = new Button("Cancel");
+        
         Text title = new Text("Create category");
         nameField = new TextField();
         descriptionField = new TextArea();
         Button accept = new Button("Create");
         accept.setOnAction((c)->{
-            try{
-                StringBuilder pos = new StringBuilder(((Integer)counterObj).toString());
-                for(int i = pos.length(); i < 10 ; i++){ pos.append(filler); }
-                pos.append("-");
-                boolean added = account.registerCategory(pos.toString()+nameField.getText(), descriptionField.getText());
-                if(added)
-                {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("prueba.fxml"));
-                    Node obj = loader.load();
-                    PruebaController pController = loader.getController();
-                    pController.setName(nameField.getText());
-                    pController.setPrice(descriptionField.getText());
-                    pController.setFatherController(controllerL, obj, pController,2+counterObj);
-                    listCont.add(pController);
-                    listCat = account.getUserCategories();
-                    listNodes.add(obj);
-                    if(2+counterObj <= 3)
-                    {
-                        grid.add(obj, 0, 2+counterObj, 3, 1);
-                        grid.getRowConstraints().set(2+counterObj++, rowC);
-                        grid.setPrefHeight(177+120*2);
-                    }else{
-                        grid.add(obj, 0, 2+counterObj, 3, 1);
-                        grid.setPrefHeight(grid.getPrefHeight()+120 );
-                        if(grid.getRowConstraints().size() <= 2+counterObj)
-                        {
-                            grid.getRowConstraints().add(rowC);
-                        }else{
-                            grid.getRowConstraints().set(2+counterObj, rowC);
-                        }
-                        counterObj++;
-                    }
-                    pController.getBack().focusedProperty().addListener((d, oldV, newV)->{
-                        if(newV){ System.out.println("Hello");}
-                    });
-
-                    animatedPanel.setVisible(false);
-                }
-                
-            }catch(AcountDAOException e){}
-            catch(IOException b){}
-            
-            
         });
         nameField.setPromptText("Enter name");
         descriptionField.setPromptText("Enter name");
-        animatedPanel.getChildren().add(nameField);
-        animatedPanel.getChildren().add(descriptionField);
-        animatedPanel.getChildren().add(accept);
-        animatedPanel.getChildren().add(title);
-        animatedPanel.setPrefWidth(back.getWidth()/3.0);
-        animatedPanel.setPrefHeight(back.getHeight()/3.0);
         
+        //Adding Buttons to pane
+        animatedPanel.getChildren().add(createCat);
+        animatedPanel.getChildren().add(createCharge);
+        animatedPanel.getChildren().add(exits);
+        
+        //AnimatedPanel Layout
+        animatedPanel.setPrefWidth(back.getWidth()/3.0);
+        animatedPanel.setPrefHeight(26*3);
         animatedPanel.setMaxWidth(back.getWidth()/3.0);
-        animatedPanel.setMaxHeight(back.getHeight()/3.0);
+        animatedPanel.setMaxHeight(26*3);
         animatedPanel.setLayoutX(adder.getLayoutX()+adder.getWidth()-animatedPanel.getPrefWidth());
         animatedPanel.setLayoutY(adder.getLayoutY() + adder.getHeight()-animatedPanel.getPrefHeight());
+
+        //Buttons size
+        createCat.setPrefWidth(animatedPanel.getMaxWidth());
+        createCharge.setPrefWidth(animatedPanel.getMaxWidth());
+        exits.setPrefWidth(animatedPanel.getMaxWidth());
         
-        title.setLayoutY(20);
-        nameField.setLayoutX(10);
-        nameField.setLayoutY(30);
-        nameField.setPrefWidth(animatedPanel.getMaxWidth()-20);
-        descriptionField.setLayoutY(animatedPanel.getMaxHeight()*0.5-20);
-        descriptionField.setLayoutX(10);
-        descriptionField.setPrefWidth(animatedPanel.getMaxWidth()-20);
-        descriptionField.setPrefHeight(animatedPanel.getMaxHeight()*0.5-10);
-        nameField.setText(name);
-        descriptionField.setText(description);
-        accept.setLayoutY(animatedPanel.getMaxHeight()-25);
-        accept.setLayoutX((animatedPanel.getWidth()-accept.getWidth())/2);
         
-        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(250), animatedPanel);
-        translateTransition.setFromY(adder.getHeight());
+        TranslateTransition translateTransition = new TranslateTransition((Duration)Duration.millis(250), animatedPanel);
+        translateTransition.setFromY((double)adder.getHeight());
         translateTransition.setToY(0);
 
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(250), animatedPanel);
+        ScaleTransition scaleTransition = new ScaleTransition((Duration)Duration.millis(250), animatedPanel);
         scaleTransition.setFromY(0);
         scaleTransition.setToY(1);
 
@@ -283,47 +255,57 @@ public class FXMLDocumentController implements Initializable{
         scaleTransition.play();
         animatedPanel.requestFocus();
         animatedPanel.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue)
+            if(!newValue && !exits.isFocused() && !createCat.isFocused() && !createCharge.isFocused())
             {
                 animatedPanel.setVisible(false);
+                blockingPane.setVisible(false);
             }else{
                 animatedPanel.setVisible(true);
+                blockingPane.setVisible(true);
                 name =nameField.getText();
                 description = descriptionField.getText();
             }
         }
         );
-        descriptionField.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue)
+        exits.focusedProperty().addListener((c, oldValue, newValue)->{
+            
+            if(!newValue && !animatedPanel.isFocused() && !createCat.isFocused() && !createCharge.isFocused())
             {
+                blockingPane.setVisible(false);
                 animatedPanel.setVisible(false);
             }else{
+                blockingPane.setVisible(true);
                 animatedPanel.setVisible(true);
                 name =nameField.getText();
                 description = descriptionField.getText();
             }
         });
-        nameField.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue)
+        createCat.focusedProperty().addListener((c, oldValue, newValue)->{
+            if(!newValue && !exits.isFocused() && !animatedPanel.isFocused() && !createCharge.isFocused())
             {
+                blockingPane.setVisible(false);
                 animatedPanel.setVisible(false);
             }else{
                 animatedPanel.setVisible(true);
+                blockingPane.setVisible(true);
                 name =nameField.getText();
                 description = descriptionField.getText();
             }
         }
         );
-        accept.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue)
+        createCharge.focusedProperty().addListener((c, oldValue, newValue)->{
+            if(!newValue && !exits.isFocused() && !createCat.isFocused() && !animatedPanel.isFocused())
             {
+                blockingPane.setVisible(false);
                 animatedPanel.setVisible(false);
             }else{
                 animatedPanel.setVisible(true);
+                blockingPane.setVisible(true);
                 name =nameField.getText();
                 description = descriptionField.getText();
             }
         });   
+        exits.setOnAction((c)->{back.requestFocus();});
     }
     
     void moveCat(Node node, MouseEvent event, PruebaController pC)
@@ -372,4 +354,57 @@ public class FXMLDocumentController implements Initializable{
         node.setTranslateY(0);
         event.consume();
     }
+    /*
+            try{
+                String name1 = nameField.getText();
+                String description1 = descriptionField.getText();
+                if(name1.length() == 0 || description1.length() == 0)
+                {
+                    return;
+                }
+                for(int i = 0 ; i < listCont.size() ; i++)
+                {
+                    if(name1.equals(listCont.get(i).getName())){ return; }
+                }
+                StringBuilder pos = new StringBuilder(((Integer)counterObj).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append(filler); }
+                pos.append("-");
+                boolean added = account.registerCategory(pos.toString()+nameField.getText(), descriptionField.getText());
+                if(added)
+                {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("prueba.fxml"));
+                    Node obj = loader.load();
+                    PruebaController pController = loader.getController();
+                    pController.setName(nameField.getText());
+                    pController.setPrice(descriptionField.getText());
+                    pController.setFatherController(controllerL, obj, pController,2+counterObj);
+                    listCont.add(pController);
+                    listCat = account.getUserCategories();
+                    listNodes.add(obj);
+                    if(2+counterObj <= 3)
+                    {
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.getRowConstraints().set(2+counterObj++, rowC);
+                        grid.setPrefHeight(177+120*2);
+                    }else{
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.setPrefHeight(grid.getPrefHeight()+120 );
+                        if(grid.getRowConstraints().size() <= 2+counterObj)
+                        {
+                            grid.getRowConstraints().add(rowC);
+                        }else{
+                            grid.getRowConstraints().set(2+counterObj, rowC);
+                        }
+                        counterObj++;
+                    }
+                    pController.getBack().focusedProperty().addListener((d, oldV, newV)->{
+                        if(newV){ System.out.println("Hello");}
+                    });
+                    blockingPane.setVisible(false);
+                    animatedPanel.setVisible(false);
+                }
+                
+            }catch(AcountDAOException e){}
+            catch(IOException b){}
+    */
 }

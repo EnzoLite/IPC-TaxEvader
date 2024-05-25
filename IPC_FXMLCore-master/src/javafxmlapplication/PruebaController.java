@@ -6,6 +6,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 public class PruebaController{
     
     @FXML
@@ -21,6 +23,8 @@ public class PruebaController{
     private Node node;
     FXMLDocumentController fatherController;
     PruebaController pC;
+    @FXML
+    private Rectangle rectangle;
     //In order to move the node inside the screen
     private double x, y, xL, yL;
     double getX(){ return this.x; }
@@ -31,6 +35,7 @@ public class PruebaController{
     double getYL(){ return this.yL; }
     void setXL( double x ){ this.xL = x; }
     void setYL( double y ){ this.yL = y; }
+    String getName(){ return this.name.getText(); }
     
     
     void setFatherController(FXMLDocumentController fatherController, Node node, PruebaController pC, int pos){
@@ -65,4 +70,5 @@ public class PruebaController{
     {
         this.price.setText(price);
     }
+    void setRectangle(String color){this.rectangle.setStyle("-fx-background-color: "+color);}
 }
