@@ -150,8 +150,13 @@ public class AddExpenseController implements Initializable {
     @FXML
     private void onDatePicker(ActionEvent event) {
         LocalDate today = LocalDate.now();
-        if(datePicker.getValue().isAfter(today)) errorMessage.setText("Did you travel back in time?");
-        else costDate = datePicker.getValue();
+        if(datePicker.getValue().isAfter(today)){
+            errorMessage.setText("You cannot select a future date");
+            costDate = null;
+        }
+        else{
+            costDate = datePicker.getValue();
+        }
     }
 
     @FXML
@@ -180,7 +185,7 @@ public class AddExpenseController implements Initializable {
                 if(title == "") errorMessage.setText("You need to fill the Title field");
                 else if(description == "") errorMessage.setText("You need to fill the Description field");
                 else if(costDate == null) errorMessage.setText("You need to fill the Date field");
-                else if(category == null) errorMessage.setText("You need to fill the Category field");
+                //else if(category == null) errorMessage.setText("You need to fill the Category field");
             }
         }catch(Exception e){
             
