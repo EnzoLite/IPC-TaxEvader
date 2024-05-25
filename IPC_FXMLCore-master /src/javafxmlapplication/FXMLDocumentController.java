@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -75,7 +76,8 @@ public class FXMLDocumentController implements Initializable{
     List<PruebaController> listCont;
     List<Category> listCat;
     List<Charge> listChar;
-    
+    private AnchorPane pane;
+    private TextField userName, password;
     //Button adder position ratios
     double bX, bY;
     
@@ -84,7 +86,28 @@ public class FXMLDocumentController implements Initializable{
     TextField nameField;
     TextArea descriptionField;
     
-    void onMouseEntered(){}
+        @FXML
+    void updateUser(ActionEvent event) {
+        FXMLLoader loaderU = new FXMLLoader(getClass().getResource("../view/updateUser.fxml"));
+        try{
+            Node nodeU =loaderU.load();
+            UpdateUserController updateController = loaderU.getController();
+            Stage stU = (Stage)buttonOut.getScene().getWindow();
+            stU.setResizable(false);
+            Pane blockingPane = new Pane();
+            back.getChildren().add(blockingPane);
+            blockingPane.setPrefHeight(back.getHeight());
+            blockingPane.setPrefWidth(back.getWidth());
+            blockingPane.setStyle("-fx-background-color: white");
+            blockingPane.setOpacity(0.5);
+            blockingPane.setVisible(true);
+            back.getChildren().add(nodeU);
+            nodeU.setLayoutY((back.getHeight()-600)/2);
+            nodeU.setLayoutX((back.getWidth()-500)/2);
+            nodeU.setVisible(true);            
+        }catch(IOException e){}
+        
+    }
     
     String filler = "!"; // '!' < 'a' && '!' < '1'
     void setControllerL(FXMLDocumentController controller) 
@@ -94,9 +117,9 @@ public class FXMLDocumentController implements Initializable{
             loadCreated();
         }catch(IOException e){System.out.println("don't understand anything");}
         Stage stage = ((Stage)this.back.getScene().getWindow());
-        stage.setHeight(500);
+        stage.setHeight(600);
         stage.setWidth(600);
-        stage.setMinHeight(500);
+        stage.setMinHeight(600);
         stage.setMinWidth(600);
         stage.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
             scrollPane.setPrefHeight(grid.getScene().getHeight());

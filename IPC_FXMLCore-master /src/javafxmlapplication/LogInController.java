@@ -429,6 +429,7 @@ public class LogInController implements Initializable{
         inputUs.setText("");
         inputPass.setText("");
         logInSelector.setDisable(true);
-        
+        correctUs = false;
+        correctPass = false;
     }
 }

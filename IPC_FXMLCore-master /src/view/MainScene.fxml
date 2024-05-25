@@ -29,25 +29,25 @@
                   <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <Button fx:id="buttonOut" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" GridPane.halignment="LEFT">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+                  <Button fx:id="buttonOut" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                      <graphic>
                         <ImageView fx:id="logOut" fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../resources/images/fotoLogOut.jpg" />
+                              <Image url="@../../resources/images/fotoDefault.jpg" />
                            </image>
                         </ImageView>
                      </graphic>
                      <GridPane.margin>
-                        <Insets left="40.0" />
+                        <Insets right="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateUser" GridPane.halignment="LEFT">
                      <graphic>
                         <ImageView fx:id="photo" fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>
                      <GridPane.margin>
-                        <Insets right="40.0" />
+                        <Insets left="40.0" right="40.0" />
                      </GridPane.margin>
                   </Button>
                </children>
