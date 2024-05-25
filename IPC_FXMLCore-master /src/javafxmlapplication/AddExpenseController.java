@@ -8,7 +8,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale.Category;
+//import java.util.Locale.Category;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -24,6 +24,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import model.Category;
+import model.Charge;
+import model.Acount;
+import model.AcountDAOException;
 
 /**
  * FXML Controller class
@@ -56,6 +60,8 @@ public class AddExpenseController implements Initializable {
     private LocalDate costDate;
     private Image Ticket;
     private Category category;
+    private Charge charge;
+    Acount signUp;
 
     /**
      * Initializes the controller class.
@@ -84,12 +90,16 @@ public class AddExpenseController implements Initializable {
 
     @FXML
     private void onCategoryPicker(ActionEvent event) {
-        /*List<Category> categories = getUserCategories();
-        for(int i = 0; i < categories.size(); i++){
-            MenuItem item = new MenuItem(categories.get(i).name);
-            categoryPicker.getItems().addAll(item);
-            item.setOnAction(e -> categoryPicker.setText(item.getText()));
-        }*/
+        try{
+            List<Category> categories = signUp.getUserCategories();
+            for(int i = 0; i < categories.size(); i++){
+                MenuItem item = new MenuItem(category.getName());
+                categoryPicker.getItems().addAll(item);
+                item.setOnAction(e -> categoryPicker.setText(item.getText()));
+            }
+        }catch(Exception e){
+            errorMessage.setText("The category selected does not exist");
+        }
     }
 
     @FXML
@@ -99,10 +109,7 @@ public class AddExpenseController implements Initializable {
         numerical = cost_string.matches("[0-9-.]+");
         if(!numerical){
             if(cost_string.length() == 0) errorMessage.setText("");
-            else{
-                errorMessage.setText("Only decimal numbers are allowed for the cost");
-                //acceptButton.setDisable(true);
-            }
+            else errorMessage.setText("Only decimal numbers are allowed for the cost");
         }
         else{
             try{
@@ -111,7 +118,6 @@ public class AddExpenseController implements Initializable {
             }
             catch(NumberFormatException e){
                 errorMessage.setText("Only decimal numbers are allowed for the cost");
-                //acceptButton.setDisable(true);
             }
         }
         
@@ -128,13 +134,18 @@ public class AddExpenseController implements Initializable {
     }
     
     @FXML
-    void onAcceptButton(ActionEvent event) {
-        /*if(registerCharge(title, description, cost, 0, Ticket, costDate, category)){
-            acceptButton.getScene().getWindow().hide();
-        }
-        else{
+    void onAcceptButton(ActionEvent event){
+        
+        try{
+            if(signUp.registerCharge(title, description, cost, 0, Ticket, costDate, category)){
+                acceptButton.getScene().getWindow().hide();
+            }
+            else{
+                errorMessage.setText("A field was wrongly introduced");
+            }
+        }catch(Exception e){
             errorMessage.setText("A field was wrongly introduced");
-        }*/
+        }
     }
 
     @FXML
