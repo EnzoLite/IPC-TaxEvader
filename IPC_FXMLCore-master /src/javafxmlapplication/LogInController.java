@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.stage.Stage;
 import model.Acount;
 
@@ -21,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -33,6 +36,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import model.AcountDAOException;
 
 public class LogInController implements Initializable{
     
@@ -147,7 +151,7 @@ public class LogInController implements Initializable{
             // Ajustar tamaño
             registerStage.initOwner(origin);             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
             registerStage.initModality(Modality.WINDOW_MODAL);
-            FXMLLoader loader= new  FXMLLoader(getClass().getResource("SignUpName.fxml"));
+            FXMLLoader loader= new  FXMLLoader(getClass().getResource("../view/SignUpName.fxml"));
             Parent root = loader.load();
             
             //======================================================================
@@ -233,11 +237,11 @@ public class LogInController implements Initializable{
         Stage stage1 = (Stage)inputPass.getScene().getWindow();
         
         
-        /*try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainScene.fxml"));
             Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
-            FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
             stage1.setScene(scene);
+            FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
             controller.setControllerL(controller);
             scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             controller.adjustW();
@@ -251,7 +255,7 @@ public class LogInController implements Initializable{
             });
             controller.addButtons(); 
             return; 
-        }catch(IOException e){ e.printStackTrace(); }*/
+        }catch(IOException e){ e.printStackTrace(); }
         
         
         
@@ -281,79 +285,127 @@ public class LogInController implements Initializable{
     }
     public void adjustW()//Sacar el ratio de posicion para ajustarlo desde el fix item hasta llegar a cierto tamaño y cambiar la distribucion de escena
     {
-        Stage stage = (Stage)back.getScene().getWindow();
-        back.setLayoutX(0);
-        back.setPrefWidth(stage.getWidth());
-        front.setLayoutX(0);
-        front.setPrefWidth(back.getWidth());
-        double var = (back.getWidth() > 800 ? ogWindowX : back.getWidth());
-        for(int i = 0 ; i < 9 ; i++)
-        {
-            double x = ratiosX[i]*var;
-            if( a[i] instanceof Label ){
-                x -= (((Label)a[i]).getWidth()/2.0);
-                /* El else es en caso de que sea la etiqueta de forgot password, esta depende del password textfield */
-            }else if( a[i] instanceof TextField ){
-                x -= (((TextField)a[i]).getWidth()/2.0);
-            }else if( a[i] instanceof Button ){
-                x -= (((Button)a[i]).getWidth()/2.0);
-            }else if( a[i] instanceof Text)
-            {
-                x+= ((Button)a[6]).getWidth()/2.0+10;
-               messages.setWrappingWidth(var-x-10);
-            }
-            AnchorPane.setLeftAnchor(this.a[i], x);
-        }
-        if(back.getWidth() > 800)
-        {
-            front.setLayoutX((back.getWidth()-ogWindowX)/2);
-            front.setPrefWidth(ogWindowX);
-        }else{
+        try{
+            Stage stage = (Stage)back.getScene().getWindow();
+            back.setLayoutX(0);
+            back.setPrefWidth(stage.getWidth());
             front.setLayoutX(0);
             front.setPrefWidth(back.getWidth());
-        }
+            double var = (back.getWidth() > 800 ? ogWindowX : back.getWidth());
+            for(int i = 0 ; i < 9 ; i++)
+            {
+                double x = ratiosX[i]*var;
+                if( a[i] instanceof Label ){
+                    x -= (((Label)a[i]).getWidth()/2.0);
+                    /* El else es en caso de que sea la etiqueta de forgot password, esta depende del password textfield */
+                }else if( a[i] instanceof TextField ){
+                    x -= (((TextField)a[i]).getWidth()/2.0);
+                }else if( a[i] instanceof Button ){
+                    x -= (((Button)a[i]).getWidth()/2.0);
+                }else if( a[i] instanceof Text)
+                {
+                    x+= ((Button)a[6]).getWidth()/2.0+10;
+                   messages.setWrappingWidth(var-x-10);
+                }
+                AnchorPane.setLeftAnchor(this.a[i], x);
+            }
+            if(back.getWidth() > 800)
+            {
+                front.setLayoutX((back.getWidth()-ogWindowX)/2);
+                front.setPrefWidth(ogWindowX);
+            }else{
+                front.setLayoutX(0);
+                front.setPrefWidth(back.getWidth());
+            }
+        }catch(NullPointerException e){}
+        
         //AnchorPane.setLeftAnchor(this.a[7], ((TextField)a[4]).getLayoutX() );
     }
     public void adjustH() 
     {
-        Stage stage = (Stage)back.getScene().getWindow();
-        back.setPrefHeight(stage.getHeight());
-        front.setLayoutY(0);
-        front.setPrefHeight(back.getHeight());
-        Double var = (back.getHeight() > 600 ? ogWindowY : back.getHeight());
-        for(int i = 0 ; i < 9 ; i++)
-        {   
-            double y = ratiosY[i]*var;
-            AnchorPane.setTopAnchor(this.a[i], y);
-        }
-        //AnchorPane.setLeftAnchor(this.a[7], ((TextField)a[4]).getLayoutX() );
-        if(back.getHeight() > 600)
-        {
-            front.setLayoutY( (back.getHeight()-front.getHeight())/2 );
-            front.setPrefHeight( ogWindowY );
-        }else{
+        try{
+            Stage stage = (Stage)back.getScene().getWindow();
+            back.setPrefHeight(stage.getHeight());
             front.setLayoutY(0);
-            front.setPrefHeight( back.getHeight() );
-        }
+            front.setPrefHeight(back.getHeight());
+            Double var = (back.getHeight() > 600 ? ogWindowY : back.getHeight());
+            for(int i = 0 ; i < 9 ; i++)
+            {   
+                double y = ratiosY[i]*var;
+                AnchorPane.setTopAnchor(this.a[i], y);
+            }
+            //AnchorPane.setLeftAnchor(this.a[7], ((TextField)a[4]).getLayoutX() );
+            if(back.getHeight() > 600)
+            {
+                front.setLayoutY( (back.getHeight()-front.getHeight())/2 );
+                front.setPrefHeight( ogWindowY );
+            }else{
+                front.setLayoutY(0);
+                front.setPrefHeight( back.getHeight() );
+            }
+        }catch(NullPointerException e){}
+
     }
     @FXML
-    void forgotPass(MouseEvent event) throws RuntimeException{
+    void forgotPass(MouseEvent event) {
         
         notUsable.setPrefSize(back.getWidth(), back.getHeight());
         notUsable.setVisible(true);
         notUsable.setOpacity(0.5);
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Recovery password");
-        dialog.setHeaderText("An email to change the password will be sent to your email");
-        dialog.setContentText("Input your username");
+        dialog.setHeaderText("An email to change the password will be sent to the email associated");
+        dialog.setContentText("Input your username:");
         Optional<String> output = dialog.showAndWait();
-        if(output.isPresent())
+        try{
+            account = Acount.getInstance();
+        }catch(IOException e){} catch (AcountDAOException ex) {}
+        
+        if( output.isPresent() && account.existsLogin(output.get()) )
         {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Email sent");
             alert.setHeaderText(null);
-            alert.setContentText("An email to recover the account associated with the email "+output.get()+" has been sent");
+            alert.setContentText("An email to recover the account associated with the username "+output.get()+" has been sent.\nCheck your email");
             alert.showAndWait();
+        }else if(output.isPresent()){
+            ButtonType button1 = new ButtonType("Retry");
+            ButtonType button2 = new ButtonType("Cancel");
+            Alert alert = new Alert(AlertType.ERROR, 
+                    "You have to write an existing username, check that you have written it correctly");
+            alert.getButtonTypes().setAll(button1, button2);
+            /*alert.onCloseRequestProperty().addListener((c)->{
+                alert.close();
+            });*/
+            alert.setTitle("Email could not be sent");
+            alert.setHeaderText(null);
+            Optional<ButtonType> ans = alert.showAndWait();
+            if(ans.isPresent())
+            {
+                boolean retry = true;
+                while(ans.get() == button1 && retry)
+                {
+                    output = dialog.showAndWait();
+                    if(output.isPresent())
+                    {
+                       if(!account.existsLogin(output.get()))
+                       {
+                            ans = alert.showAndWait();
+                       }else{ retry = false; } 
+                    }else{
+                        retry = false;
+                    }
+                }
+                if(ans.get() == button1)
+                {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Email sent");
+                    alert.setHeaderText(null);
+                    alert.setContentText("An email to recover the account associated with the username "+output.get()+" has been sent.\nCheck your email");
+                    alert.showAndWait();                    
+                }
+
+            }
         }
         notUsable.setVisible(false);
 
