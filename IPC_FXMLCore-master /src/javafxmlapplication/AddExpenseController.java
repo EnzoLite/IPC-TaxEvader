@@ -155,7 +155,7 @@ public class AddExpenseController implements Initializable {
     }
 
     @FXML
-    private void onTicket(MouseEvent event) {
+    void onTicket(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg"));

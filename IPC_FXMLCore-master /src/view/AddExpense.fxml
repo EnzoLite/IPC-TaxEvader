@@ -82,9 +82,9 @@
                </font>
             </TextField>
             <DatePicker fx:id="datePicker" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onDatePicker" prefHeight="30.0" prefWidth="210.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <Button fx:id="ticketButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onTicket" prefHeight="100.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <graphic>
-                  <ImageView fx:id="ticket" fitHeight="100.0" fitWidth="120.0" onDragDetected="#onTicket" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ticket" fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
             </Button>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
