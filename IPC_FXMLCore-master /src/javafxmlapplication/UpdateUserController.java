@@ -60,13 +60,13 @@ public class UpdateUserController implements Initializable{
     private String firstName, lastName, nickName, email, password;
     private Image photos;
     private Acount account;
-    
+    private User us; 
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         try{
             account = Acount.getInstance();
         }catch(AcountDAOException | IOException e){}
-        User us = account.getLoggedUser();
+        us = account.getLoggedUser();
         firstName = us.getName();
         lastName = us.getSurname();
         nickName = us.getNickName();
@@ -94,10 +94,14 @@ public class UpdateUserController implements Initializable{
         lastName = (!lastF.getText().isEmpty() ? lastF.getText() : lastName);
         nickName = (nicknameF.getText().isEmpty() ? nickName : nicknameF.getText());
         email = (emailF.getText().isEmpty() ? email : emailF.getText());
-        if( password1.getText().equals(password2.getText()))
+        String p = password1.getText();
+        if( (p == null || p.length() == 0) && (password2.getText() == null || password2.getText().length() == 0) || p.equals(password2.getText()))
         {
-            System.out.println(1);
+            if(!(p == null || p.length() == 0))
+            {
+                password = p;
+            }
         }
-        System.out.println(1);
+        //Actualizar usuario
     }
 }
