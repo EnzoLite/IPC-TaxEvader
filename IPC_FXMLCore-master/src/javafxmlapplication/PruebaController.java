@@ -16,12 +16,28 @@ public class PruebaController{
     private Text price;
     @FXML
     private StackPane back;
-    private Node node;
     
+    private int pos;
+    private Node node;
     FXMLDocumentController fatherController;
-    void setFatherController(FXMLDocumentController fatherController, Node node){
+    PruebaController pC;
+    //In order to move the node inside the screen
+    private double x, y, xL, yL;
+    double getX(){ return this.x; }
+    double getY(){ return this.y; }
+    void setX( double x ){ this.x = x; }
+    void setY( double y ){ this.y = y; }
+    double getXL(){ return this.xL; }
+    double getYL(){ return this.yL; }
+    void setXL( double x ){ this.xL = x; }
+    void setYL( double y ){ this.yL = y; }
+    
+    
+    void setFatherController(FXMLDocumentController fatherController, Node node, PruebaController pC, int pos){
         this.fatherController = fatherController;
         this.node = node;
+        this.pC = pC;
+        this.pos = pos;
     }
             
     StackPane getBack()
@@ -30,16 +46,16 @@ public class PruebaController{
     }
     @FXML
     void move(MouseEvent event) {
-        fatherController.moveCat(node, event);
+        fatherController.moveCat(node, event, pC);
     }
     @FXML
     void moving(MouseEvent event)
     {
-        fatherController.movingCat(node, event);
+        fatherController.movingCat(node, event, pC);
     }
     @FXML
     void moved(MouseEvent event) {
-        fatherController.movedCat(node, event);
+        fatherController.movedCat(node, event, pC);
     }
     void setName(String text)
     {

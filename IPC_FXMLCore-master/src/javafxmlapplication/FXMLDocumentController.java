@@ -23,8 +23,11 @@ import javafx.scene.control.TextArea;
 import javafx.util.Duration;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.Acount;
 import model.AcountDAOException;
 import model.Category;
@@ -52,8 +55,8 @@ public class FXMLDocumentController implements Initializable{
     private int counterObj;
     
     private Pane animatedPanel;
-    
-    ObservableList<Category> list;
+    private RowConstraints rowC = new RowConstraints();
+    List<Node> listNodes;
     List<PruebaController> listCont;
     List<Category> listCat;
     List<Charge> listChar;
@@ -65,9 +68,24 @@ public class FXMLDocumentController implements Initializable{
     String name="", description="";
     TextField nameField;
     TextArea descriptionField;
-    void setControllerL(FXMLDocumentController controller)
+    
+    
+    
+    String filler = "!"; // '!' < 'a' && '!' < '1'
+    void setControllerL(FXMLDocumentController controller) 
     {
         this.controllerL = controller;
+        try{
+            loadCreated();
+        }catch(IOException e){System.out.println("don't understand anything");}
+        Stage stage = ((Stage)this.back.getScene().getWindow());
+        stage.setHeight(500);
+        stage.setWidth(600);
+        stage.setMinHeight(500);
+        stage.setMinWidth(600);
+        stage.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+            grid.setPrefHeight(177+120*(grid.getRowCount()-2));
+        });
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -75,13 +93,21 @@ public class FXMLDocumentController implements Initializable{
         try{
             account = Acount.getInstance();
             account.logInUserByCredentials("M","M");
+            
+            
             List<Category> cats = account.getUserCategories();
             for( int i = 0 ; i < cats.size() ; i++)
             {
                 account.removeCategory(cats.get(i));
             }
+            
+            
             listCat = account.getUserCategories();
-            loadCreated();
+            listNodes = new ArrayList<Node>(50);
+            listCont = new ArrayList<PruebaController>(50);
+            rowC.setMinHeight(120);
+            rowC.setPrefHeight(120);
+            rowC.setMaxHeight(Double.MAX_VALUE);
         }catch( AcountDAOException e){e.printStackTrace();}
         catch(IOException e){e.printStackTrace();}
         
@@ -131,17 +157,35 @@ public class FXMLDocumentController implements Initializable{
         adder.setLayoutY((bY+0.0)*back.getHeight()); 
     }
     
+    
     private void loadCreated() throws IOException
     {
         for (Category listCat1 : listCat) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("prueba.fxml"));
             Node obj = loader.load();
+            listNodes.add(obj);
             PruebaController pController = loader.getController();
-            pController.setName(listCat1.getName());
+            listCont.add(pController);
+            
+            String[] a = listCat1.getName().split("-");
+            pController.setName(a[1]);
+            
             pController.setPrice(listCat1.getDescription());
-            grid.add(obj, 0, 2+counterObj++, 3, 1);
+            pController.setFatherController(controllerL, obj, pController,2+counterObj);
+            
+            grid.add(obj, 0, 2+counterObj, 3, 1);
+            if(grid.getRowConstraints().size() <= 2+counterObj)
+            {
+                grid.getRowConstraints().add(rowC);
+            }else{
+                grid.getRowConstraints().set(2+counterObj, rowC);
+            }
+            grid.setPrefHeight(177+120*((counterObj > 2 ? counterObj : 2)));
+            counterObj++;
         }
     }
+    
+    
     private void showAnimatedPanel() {
         if (animatedPanel != null) {
             grid.getChildren().remove(animatedPanel);
@@ -157,7 +201,10 @@ public class FXMLDocumentController implements Initializable{
         Button accept = new Button("Create");
         accept.setOnAction((c)->{
             try{
-                boolean added = account.registerCategory(nameField.getText(), descriptionField.getText());
+                StringBuilder pos = new StringBuilder(((Integer)counterObj).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append(filler); }
+                pos.append("-");
+                boolean added = account.registerCategory(pos.toString()+nameField.getText(), descriptionField.getText());
                 if(added)
                 {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("prueba.fxml"));
@@ -165,13 +212,25 @@ public class FXMLDocumentController implements Initializable{
                     PruebaController pController = loader.getController();
                     pController.setName(nameField.getText());
                     pController.setPrice(descriptionField.getText());
-                    pController.setFatherController(controllerL, obj);
-                    if(2+counterObj <= 4)
+                    pController.setFatherController(controllerL, obj, pController,2+counterObj);
+                    listCont.add(pController);
+                    listCat = account.getUserCategories();
+                    listNodes.add(obj);
+                    if(2+counterObj <= 3)
                     {
-                        grid.add(obj, 0, 2+counterObj++, 3, 1);
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.getRowConstraints().set(2+counterObj++, rowC);
+                        grid.setPrefHeight(177+120*2);
                     }else{
-                        grid.add(obj, 0, 2+counterObj++, 3, 1);
-                        grid.setPrefHeight(grid.getHeight()+obj.maxHeight(bX) );
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.setPrefHeight(grid.getPrefHeight()+120 );
+                        if(grid.getRowConstraints().size() <= 2+counterObj)
+                        {
+                            grid.getRowConstraints().add(rowC);
+                        }else{
+                            grid.getRowConstraints().set(2+counterObj, rowC);
+                        }
+                        counterObj++;
                     }
                     pController.getBack().focusedProperty().addListener((d, oldV, newV)->{
                         if(newV){ System.out.println("Hello");}
@@ -267,17 +326,50 @@ public class FXMLDocumentController implements Initializable{
         });   
     }
     
-    void moveCat(Node node, MouseEvent event)
+    void moveCat(Node node, MouseEvent event, PruebaController pC)
     {
+        pC.setY(event.getSceneY());
+        pC.setYL(pC.getY());
+    }
+    void movingCat(Node node, MouseEvent event, PruebaController pC)
+    {
+        if(event.getSceneY() > grid.getHeight()){return; }
+        node.setTranslateY(node.getTranslateY()+event.getSceneY()-pC.getYL());
+        pC.setYL(event.getSceneY());
         
     }
-    void movingCat(Node node, MouseEvent event)
+    void movedCat(Node node, MouseEvent event, PruebaController pC)
     {
+        //column == row :)
+        double rowIni = GridPane.getRowIndex(node);
+        double row =(( scrollPane.getVvalue()* (grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
+        try{
+            row = (row >= counterObj+2 ? counterObj : (row >= 2 ? row : 2));
+            Category cat1 = listCat.get((int)row-2);
+            String[] st1 = cat1.getName().split("-");
+            Category cat2 = listCat.get((int)rowIni-2);
+            String[] st2 = cat2.getName().split("-");
+            account.removeCategory(cat1);
+            account.removeCategory(cat2);
+            cat1.setName(st2[0]+"-"+st1[1]);
+            cat2.setName(st1[0]+"-"+st2[1]);
+            account.registerCategory(cat1.getName(),cat1.getDescription());
+            account.registerCategory(cat2.getName(), cat2.getDescription());
+            listCat = account.getUserCategories();
+            for(int i = 0 ; i < listCat.size() ; i++)
+            {
+                System.out.println(listCat.get(i).getName());
+            }
+            listNodes.set((int)rowIni-2, listNodes.get((int)row-2));
+            listNodes.set((int)row-2, node);
+            listCont.set((int)rowIni-2, listCont.get((int)row-2));
+            listCont.set((int)row-2, pC);
+            GridPane.setRowIndex(listNodes.get((int)row-2), (int)row);
+            GridPane.setRowIndex(listNodes.get((int)rowIni-2), (int)rowIni);
+            
+        }catch(AcountDAOException e){}
         
+        node.setTranslateY(0);
+        event.consume();
     }
-    void movedCat(Node node, MouseEvent event)
-    {
-        
-    }
-
 }

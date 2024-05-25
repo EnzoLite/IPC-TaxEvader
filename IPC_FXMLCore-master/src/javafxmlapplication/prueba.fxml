@@ -7,7 +7,7 @@
 
 <StackPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.PruebaController">
    <children>
-      <Button mnemonicParsing="false" prefHeight="98.0" prefWidth="395.0" />
+      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="98.0" prefWidth="395.0" />
       <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
          <StackPane.margin>
             <Insets left="300.0" />
