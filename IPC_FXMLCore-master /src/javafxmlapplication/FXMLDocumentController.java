@@ -18,6 +18,8 @@ import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.util.Duration;
@@ -28,6 +30,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Acount;
 import model.AcountDAOException;
@@ -94,6 +97,7 @@ public class FXMLDocumentController implements Initializable{
         adder.setOnAction(event -> showAnimatedPanel());
         try{
             account = Acount.getInstance();
+            //account.registerUser("M", "M", "M", "M", "M", null, LocalDate.now());
             account.logInUserByCredentials("M","M");
             List<Category> cats = account.getUserCategories();
             for( int i = 0 ; i < cats.size() ; i++)
@@ -309,23 +313,41 @@ public class FXMLDocumentController implements Initializable{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddExpense.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage st = new Stage();
+                st.initOwner((Stage)back.getScene().getWindow());             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
+                st.initModality(Modality.WINDOW_MODAL);
+                Pane pane = new Pane();
+                pane.setOpacity(0.5);
+                back.getChildren().add(pane);
+                pane.setPrefHeight(back.getHeight());
+                pane.setPrefWidth(back.getWidth());
+                pane.setStyle("-fx-background-color:white");
+                pane.setVisible(true);
                 st.setScene(scene);
-                st.setHeight(600);
-                st.setWidth(1200);
                 st.show();
-            }catch(IOException e){}
+                st.setHeight(600);
+                st.setMinHeight(600);
+                st.setWidth(850);
+                st.setMinWidth(850);
+                try{
+                    st.showAndWait();
+                }catch(IllegalStateException e){}
+                pane.setVisible(false);
+            }catch(IOException e){System.out.println("Hey MG");}
             
             
         });
         createCat.setOnAction((c)->{
-                        try{
+            try{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/addCategory.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage st = new Stage();
                 st.setScene(scene);
-                st.setHeight(600);
-                st.setWidth(1200);
                 st.show();
+                st.setHeight(600);
+                st.setWidth(900);
+                try{
+                    st.showAndWait();
+                }catch(IllegalStateException e){}
             }catch(IOException e){}
         });
     }
