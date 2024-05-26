@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -43,19 +44,14 @@ public class AddExpenseController implements Initializable {
 
     @FXML
     private TextField titleTextField;
-    @FXML
     private SplitMenuButton categoryPicker;
-    @FXML
     private TextField costTextField;
-    @FXML
     private DatePicker datePicker;
-    @FXML
     private ImageView ticket;
     @FXML
     private Button acceptButton;
     @FXML
     private Button cancelButton;
-    @FXML
     private TextField descriptionTextField;
     @FXML
     private Text errorMessage;
@@ -69,23 +65,7 @@ public class AddExpenseController implements Initializable {
     Acount signUp;
     List<Category> categories;
     @FXML
-    private BorderPane back;
-    @FXML
-    private Label Title;
-    @FXML
-    private Label cost_css;
-    @FXML
-    private Label date_css;
-    @FXML
-    private Label title_name;
-    @FXML
-    private Label category_css;
-    @FXML
-    private Label image_css;
-    @FXML
-    private Label description_css;
-    @FXML
-    private Button ticketButton;
+    private ColorPicker myColorPicker;
 
     /**
      * Initializes the controller class.
@@ -107,12 +87,10 @@ public class AddExpenseController implements Initializable {
         title = titleTextField.getText();
     }
     
-    @FXML
     void onDescriptionTextField(KeyEvent event) {
         description = descriptionTextField.getText();
     }
 
-    @FXML
     private void onCategoryPicker(ActionEvent event) {
         try{
             categories = signUp.getUserCategories();
@@ -126,7 +104,6 @@ public class AddExpenseController implements Initializable {
         }
     }
 
-    @FXML
     void onCostTextField(KeyEvent event) {
         String cost_string = costTextField.getText();
         boolean numerical;
@@ -147,7 +124,6 @@ public class AddExpenseController implements Initializable {
         
     }
 
-    @FXML
     private void onDatePicker(ActionEvent event) {
         LocalDate today = LocalDate.now();
         if(datePicker.getValue().isAfter(today)){
@@ -159,7 +135,6 @@ public class AddExpenseController implements Initializable {
         }
     }
 
-    @FXML
     void onTicket(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource");
@@ -195,5 +170,9 @@ public class AddExpenseController implements Initializable {
     @FXML
     void onCancelButton(ActionEvent event) {
         cancelButton.getScene().getWindow().hide();
+    }
+
+    @FXML
+    private void onTitleTextField(ActionEvent event) {
     }
 }
