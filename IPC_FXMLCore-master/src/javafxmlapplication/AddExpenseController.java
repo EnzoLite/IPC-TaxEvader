@@ -87,6 +87,15 @@ public class AddExpenseController implements Initializable {
                 Bindings.or(costTextField.textProperty().isEmpty(), 
                 Bindings.or(categoryPicker.textProperty().isEmpty(), 
                 datePicker.getEditor().textProperty().isEmpty())))));
+        try{
+            categories = signUp.getUserCategories();
+            for(int i = 0; i < categories.size(); i++){
+                MenuItem item = new MenuItem(category.getName());
+                categoryPicker.getItems().addAll(item);
+            }
+        }catch(Exception e){
+            
+        }
     }    
 
     @FXML
@@ -159,7 +168,7 @@ public class AddExpenseController implements Initializable {
     void onAcceptButton(ActionEvent event){
         
         try{
-            if(signUp.registerCharge(title, description, cost, 0, Ticket, costDate, category)){
+            if(signUp.registerCharge(title, description, cost, 2, Ticket, costDate, category)){
                 //categories.setPrice(categoryPicker.getText());
                 acceptButton.getScene().getWindow().hide();
             }
