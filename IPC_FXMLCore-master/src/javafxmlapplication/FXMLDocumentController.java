@@ -226,7 +226,7 @@ public class FXMLDocumentController implements Initializable{
             String[] b = listCat1.getDescription().split("-");
             pController.setPrice(b[1]);
             pController.setFatherController(controllerL, obj, pController,2+counterObj, listCat1);
-           
+           pController.setRectangle(b[0]);
             grid.add(obj, 0, 2+counterObj, 3, 1);
             if(grid.getRowConstraints().size() <= 2+counterObj)
             {
