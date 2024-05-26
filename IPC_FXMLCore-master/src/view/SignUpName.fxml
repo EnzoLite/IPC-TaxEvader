@@ -42,7 +42,7 @@
             </Text>
          </children>
       </Pane>
-      <Button fx:id="imageOption" alignment="CENTER" layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#onImageOption" prefHeight="91.0" prefWidth="109.0">
+      <Button fx:id="imageOption" alignment="CENTER" layoutX="239.0" layoutY="151.0" mnemonicParsing="false" onAction="#onImageOption" prefHeight="91.0" prefWidth="109.0">
          <graphic>
             <ImageView fx:id="imageView" fitHeight="93.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true">
                <image>

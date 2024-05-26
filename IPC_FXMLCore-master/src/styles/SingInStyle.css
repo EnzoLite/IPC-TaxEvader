@@ -21,3 +21,6 @@
 .centered{
     -fx-alignment: center;
 }
+#passInfLabel{
+    -fx-text-fill: #ffd700;
+}
