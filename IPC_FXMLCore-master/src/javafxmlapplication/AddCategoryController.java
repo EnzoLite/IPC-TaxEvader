@@ -42,7 +42,7 @@ public class AddCategoryController implements Initializable {
     private ColorPicker myColorPicker;
     
     @FXML
-    private TextArea descriptionField;
+    private TextField descriptionField;
     
     @FXML
     private Text alertMessage;

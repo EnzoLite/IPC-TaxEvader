@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="BorderPane" prefHeight="400.0" prefWidth="788.0" style="-fx-background-radius: 12, 12, 0, 0;" styleClass="background" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AddCategoryController">
+<BorderPane id="BorderPane" prefHeight="400.0" prefWidth="788.0" style="-fx-background-radius: 12, 12, 0, 0;" styleClass="background" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.AddCategoryController">
          <top>
             <AnchorPane prefHeight="89.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
@@ -72,11 +72,12 @@
                <value>
                   <Color red="1.0" green="0.843137264251709" />
                </value></ColorPicker>
-            <TextField fx:id="titleTextField1" maxWidth="-Infinity" minWidth="-Infinity" onAction="#onTitleTextField" onKeyReleased="#onTitleTextField" prefHeight="35.0" prefWidth="447.0" promptText="Description..." styleClass="textfields" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="descriptionField" maxWidth="-Infinity" minWidth="-Infinity" onAction="#onTitleTextField" onKeyReleased="#onTitleTextField" prefHeight="35.0" prefWidth="447.0" promptText="Description" styleClass="textfields" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
+            <Text fx:id="alertMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </center>

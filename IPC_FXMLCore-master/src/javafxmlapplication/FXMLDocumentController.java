@@ -40,7 +40,6 @@ import model.Acount;
 import model.AcountDAOException;
 import model.Category;
 import model.Charge;
-import view.AddCategoryController;
 
 
 //grid.add((Node) loader.load(), width, height, row.spane, column.span)
@@ -400,7 +399,7 @@ public class FXMLDocumentController implements Initializable{
                 try{
                     st.showAndWait();
                 }catch(IllegalStateException e){}
-            }catch(IOException e){}
+            }catch(IOException e){e.printStackTrace();}
         });
     }
     
