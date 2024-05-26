@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +37,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Acount;
 import model.AcountDAOException;
 
@@ -87,6 +90,14 @@ public class SignUpNameController implements Initializable {
     String password = "";
     Image image;
     LocalDate date;
+    Color done = Color.web("#ffd700");
+    Color notDone = Color.web("#13305e");
+    ScaleTransition s1 = new ScaleTransition();
+    ScaleTransition s2 = new ScaleTransition();
+    ScaleTransition s3 = new ScaleTransition();
+    ScaleTransition s4 = new ScaleTransition();
+    ScaleTransition s5 = new ScaleTransition();
+    
     
     Acount signUp;
     @FXML
@@ -103,6 +114,19 @@ public class SignUpNameController implements Initializable {
         imageOption.setVisible(false);
         passInfLabel.setVisible(false);
         nextButton.setDisable(true);
+        circle1.setFill(done);circle1.setStroke(done);
+        circle2.setFill(Color.TRANSPARENT);circle2.setStroke(done);
+        circle3.setFill(Color.TRANSPARENT);circle3.setStroke(done);
+        circle4.setFill(Color.TRANSPARENT);circle4.setStroke(done);
+        circle5.setFill(Color.TRANSPARENT);circle5.setStroke(done);
+        s1.setNode(circle1); s1.setDuration(Duration.millis(750)); s1.setCycleCount(TranslateTransition.INDEFINITE); s1.setByX(0.25); s1.setByY(0.25); s1.setAutoReverse(true);
+        s2.setNode(circle2); s2.setDuration(Duration.millis(750)); s2.setCycleCount(TranslateTransition.INDEFINITE); s2.setByX(0.25); s2.setByY(0.25); s2.setAutoReverse(true);
+        s3.setNode(circle3); s3.setDuration(Duration.millis(750)); s3.setCycleCount(TranslateTransition.INDEFINITE); s3.setByX(0.25); s3.setByY(0.25); s3.setAutoReverse(true);
+        s4.setNode(circle4); s4.setDuration(Duration.millis(750)); s4.setCycleCount(TranslateTransition.INDEFINITE); s4.setByX(0.25); s4.setByY(0.25); s4.setAutoReverse(true);
+        s5.setNode(circle5); s5.setDuration(Duration.millis(750)); s5.setCycleCount(TranslateTransition.INDEFINITE); s5.setByX(0.25); s5.setByY(0.25); s5.setAutoReverse(true);
+        s1.play();
+        
+        
     } 
     
     @FXML
@@ -117,7 +141,9 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setText("Nick Name");
             signUpInstance.setX(-5);
             signUpTextField.setPromptText("Nick Name");
-            circle2.setFill(Paint.valueOf("#efb810"));
+            circle2.setFill(done);
+            s1.stop(); circle1.setScaleX(1); circle1.setScaleY(1);
+            s2.play(); s1.play();
             if(nickName.length() == 0) signUpTextField.clear();
             else nextButton.setDisable(false);
             surnameTextField.clear();
@@ -144,7 +170,12 @@ public class SignUpNameController implements Initializable {
                 signUpTextField.setPromptText("Email");
                 passwordTextField.setVisible(false);
                 signUpTextField.setVisible(true);
-                circle3.setFill(Paint.valueOf("#efb810"));
+                circle3.setFill(done);
+                
+
+                s1.stop();s2.stop();
+                circle1.setScaleX(1); circle1.setScaleY(1);circle2.setScaleX(1); circle2.setScaleY(1); 
+                s3.play();s2.play(); s1.play();
                 if(email.length() == 0) signUpTextField.clear();
                 else nextButton.setDisable(false);
             }
@@ -159,7 +190,11 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setX(4);
             passwordTextField.setVisible(true);
             passwordTextField.setPromptText("Password");
-            circle4.setFill(Paint.valueOf("#efb810"));
+            circle4.setFill(done);
+            
+            s1.stop();s2.stop();s3.stop();
+            circle1.setScaleX(1); circle1.setScaleY(1);circle2.setScaleX(1); circle2.setScaleY(1);circle3.setScaleX(1); circle3.setScaleY(1);
+            s4.play();s3.play();s2.play(); s1.play();
             if(password.length() == 0) signUpTextField.clear();
             else nextButton.setDisable(false);
         }
@@ -174,7 +209,11 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setY(-5);
             passwordTextField.setVisible(false);
             imageOption.setVisible(true);
-            circle5.setFill(Paint.valueOf("#efb810"));
+            circle5.setFill(done);
+            
+            s1.stop();s2.stop();s3.stop();s4.stop();
+            circle1.setScaleX(1); circle1.setScaleY(1);circle2.setScaleX(1); circle2.setScaleY(1);circle3.setScaleX(1); circle3.setScaleY(1); circle4.setScaleX(1);circle4.setScaleY(1);
+            s5.play();s4.play();s3.play();s2.play(); s1.play();
             nextButton.setTranslateY(30);
             backButton.setTranslateY(30);
         }
@@ -211,7 +250,9 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setText("Full Name");
             signUpInstance.setX(4);
             signUpTextField.setPromptText("Name");
-            circle2.setFill(Paint.valueOf("#1e90ff"));
+            circle2.setFill(notDone);
+            s2.stop();
+            circle2.setScaleX(1); circle2.setScaleY(1);
             signUpTextField.clear();
             signUpTextField.setText(name);
             surnameTextField.setText(surname);
@@ -226,7 +267,9 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setText("Nick Name");
             signUpInstance.setX(-5);
             signUpTextField.setPromptText("Nick Name");
-            circle3.setFill(Paint.valueOf("#1e90ff"));
+            circle3.setFill(notDone);
+            s3.stop();
+            circle3.setScaleX(1); circle3.setScaleY(1);
             signUpTextField.clear();
             signUpTextField.setText(nickName);
         }
@@ -240,7 +283,9 @@ public class SignUpNameController implements Initializable {
             signUpTextField.setText(email);
             passwordTextField.setVisible(false);
             signUpTextField.setVisible(true);
-            circle4.setFill(Paint.valueOf("#1e90ff"));
+            circle4.setFill(notDone);
+            s4.stop();
+            circle4.setScaleX(1); circle4.setScaleY(1);
         }
         else if(counter == 3){
             nextButton.setDisable(false);
@@ -248,7 +293,9 @@ public class SignUpNameController implements Initializable {
             signUpInstance.setText("Password");
             signUpInstance.setX(4);
             signUpTextField.setPromptText("Password");
-            circle5.setFill(Paint.valueOf("#1e90ff"));
+            circle5.setFill(notDone);
+            s5.stop();
+            circle5.setScaleX(1); circle5.setScaleY(1);
             imageOption.setVisible(false);
             passwordTextField.setVisible(true);
             signUpInstance.setX(4);

@@ -3,7 +3,7 @@
 }
 
 .yellowText{
-    -fx-text-fill: #FFD700;
+    -fx-text-fill: #ffd700;
 }
 
 .yellowTextFields{
@@ -12,4 +12,12 @@
     -fx-prompt-text-fill: #9c8403;
 }
 
+.buttons{
+    -fx-text-fill: #FFD700;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
 
+.centered{
+    -fx-alignment: center;
+}
