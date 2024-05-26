@@ -31,3 +31,14 @@
     -fx-background-color: #13305e;
     -fx-background-radius: 24, 24, 0, 0;
 }
+
+.backgroundC{
+    -fx-background-color: #9c8403;
+}
+
+.buttons2{
+    
+    -fx-text-fill: #ffd700;
+    -fx-background-color: #3d537c;
+    -fx-background-radius: 12, 12, 0, 0;
+}
