@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="background" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.AddExpenseController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="background" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.AddExpenseController">
    <top>
       <AnchorPane prefHeight="89.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -71,7 +71,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <SplitMenuButton fx:id="categoryPicker" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onCategoryPicker" prefHeight="30.0" prefWidth="210.0" style="-fx-effect: red;" styleClass="buttons" text="Select category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <SplitMenuButton fx:id="categoryPicker" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onCategoryPicker" prefHeight="30.0" prefWidth="210.0" text="Select category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="16.0" />
                </font>
@@ -81,7 +81,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <DatePicker fx:id="datePicker" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onDatePicker" prefHeight="30.0" prefWidth="210.0" styleClass="buttons" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <DatePicker fx:id="datePicker" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onDatePicker" prefHeight="30.0" prefWidth="210.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
             <Button fx:id="ticketButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onTicket" prefHeight="100.0" prefWidth="120.0" styleClass="buttons" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <graphic>
                   <ImageView fx:id="ticket" fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />

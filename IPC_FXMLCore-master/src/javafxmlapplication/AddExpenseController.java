@@ -89,9 +89,16 @@ public class AddExpenseController implements Initializable {
                 Bindings.or(categoryPicker.textProperty().isEmpty(), 
                 datePicker.getEditor().textProperty().isEmpty())))));
         try{
-            //categories = chargeVController.getUserCategories();
+            Acount account = Acount.getInstance();
+            categories = account.getUserCategories();
             for(int i = 0; i < categories.size(); i++){
+                final int o = i;
                 MenuItem item = new MenuItem(categories.get(i).getName());
+                item.setOnAction(e ->
+                {
+                    categoryPicker.setText(item.getText());
+                    category = categories.get(o);
+                 });
                 categoryPicker.getItems().addAll(item);
             }
         }catch(Exception e){
@@ -115,18 +122,14 @@ public class AddExpenseController implements Initializable {
     }
     @FXML
     void onCategoryPicker(ActionEvent event) {
-        
-        for(int i = 0; i < categories.size(); i++){
-            MenuItem item = new MenuItem(categories.get(i).getName());
-            item.setOnAction(e -> categoryPicker.setText(item.getText()));
-        }
+/*
         for(int i = 0; i < categories.size(); i++){
             Category aux = categories.get(i);
             if(categoryPicker.getText() == aux.getName()){
                 category = aux;
                 break;
             }
-        }
+        }*/
             
     }
     @FXML
@@ -187,6 +190,7 @@ public class AddExpenseController implements Initializable {
         
         if((title== null || title.length() == 0 || title.matches(" *")))
         {
+            if(title.matches(" *")){System.out.println("I'm gonna kill myself");}
             errorMessage.setText("Name field cannot be empty");
             return;
         }
@@ -201,10 +205,7 @@ public class AddExpenseController implements Initializable {
         if(costDate == null || costDate.toString().length() == 0 || costDate.toString().matches(" *")){
             errorMessage.setText("Date field cannot be empty");
         }
-        if(category == null){
-            errorMessage.setText("Category field cannot be empty");
-        }
-        if(chargeVController.addCharge(title, description, cost, 1, ticket, costDate))
+        if(chargeVController.addCharge(title, description, cost, 1, ticket.getImage(), costDate, category))
         {
             Stage stage = (Stage)titleTextField.getScene().getWindow();
             stage.close();
@@ -218,9 +219,9 @@ public class AddExpenseController implements Initializable {
         ((Stage)cancelButton.getScene().getWindow()).close();
     }
 
-    @FXML
-    private void onTitleTextField(ActionEvent event) {
-    }
+//   @FXML
+//    private void onTitleTextField(ActionEvent event) {
+//    }
     public void setMainController(ChargeViewerController chargeViewController)
     {
         chargeVController = chargeViewController;

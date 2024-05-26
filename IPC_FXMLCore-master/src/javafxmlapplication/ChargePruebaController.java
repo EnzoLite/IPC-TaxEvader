@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package javafxmlapplication;
 
 import java.net.URL;
@@ -28,7 +24,7 @@ public class ChargePruebaController {
     private StackPane back;
     @FXML
     private Text date;
-    
+
     private int pos;
     private Node node;
     ChargeViewerController fatherController;
@@ -44,14 +40,14 @@ public class ChargePruebaController {
     void setXL( double x ){ this.xL = x; }
     void setYL( double y ){ this.yL = y; }
     String getName(){ return this.name.getText(); }
-    
-    
+
+
     void setFatherController(ChargeViewerController fatherController, Node node, ChargePruebaController cPC){
         this.fatherController = fatherController;
         this.node = node;
         this.cPC = cPC;
     }
-            
+
     StackPane getBack()
     {
         return back;
@@ -76,8 +72,5 @@ public class ChargePruebaController {
     void setPrice(String price)
     {
         this.price.setText(price);
-    }
-    void setDate(String date){
-        this.date.setText(date);
     }
 }

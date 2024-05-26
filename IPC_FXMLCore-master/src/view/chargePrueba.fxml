@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="500.0" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.PruebaController">
+<StackPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="500.0" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.ChargePruebaController">
    <children>
       <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="98.0" prefWidth="395.0" styleClass="buttons" />
       <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" StackPane.alignment="CENTER_LEFT">
