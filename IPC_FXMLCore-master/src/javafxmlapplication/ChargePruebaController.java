@@ -31,8 +31,8 @@ public class ChargePruebaController {
     
     private int pos;
     private Node node;
-    FXMLDocumentController fatherController;
-    PruebaController pC;
+    ChargeViewerController fatherController;
+    ChargePruebaController cPC;
     //In order to move the node inside the screen
     private double x, y, xL, yL;
     double getX(){ return this.x; }
@@ -46,11 +46,10 @@ public class ChargePruebaController {
     String getName(){ return this.name.getText(); }
     
     
-    void setFatherController(FXMLDocumentController fatherController, Node node, PruebaController pC, int pos){
+    void setFatherController(ChargeViewerController fatherController, Node node, ChargePruebaController cPC){
         this.fatherController = fatherController;
         this.node = node;
-        this.pC = pC;
-        this.pos = pos;
+        this.cPC = cPC;
     }
             
     StackPane getBack()
@@ -59,16 +58,16 @@ public class ChargePruebaController {
     }
     @FXML
     void move(MouseEvent event) {
-        fatherController.moveCat(node, event, pC);
+        fatherController.moveCat(node, event, cPC);
     }
     @FXML
     void moving(MouseEvent event)
     {
-        fatherController.movingCat(node, event, pC);
+        fatherController.movingCat(node, event, cPC);
     }
     @FXML
     void moved(MouseEvent event) {
-        fatherController.movedCat(node, event, pC);
+        fatherController.movedCat(node, event, cPC);
     }
     void setName(String text)
     {

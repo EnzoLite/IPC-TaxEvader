@@ -92,9 +92,11 @@ public class PruebaController{
                 controller.adjustW();
                 controller.adjustH();
             });
+            controller.setCat(this.cat, controller);
             stage1.setX(stage1.getX()+1);
             stage1.setX(stage1.getX()-1);
-            controller.adjustH();
+            stage1.setY(stage1.getY()+1);
+            stage1.setY(stage1.getY()-1);
             controller.adjustW();
             controller.adjustH();
         }catch(IOException e)

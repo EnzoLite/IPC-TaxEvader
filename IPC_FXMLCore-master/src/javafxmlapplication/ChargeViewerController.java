@@ -6,7 +6,9 @@ package javafxmlapplication;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.ScaleTransition;
@@ -20,7 +22,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -80,7 +84,7 @@ public class ChargeViewerController implements Initializable {
     private ChargeViewerController controllerL;
     private RowConstraints rowC = new RowConstraints();
     List<Node> listNodes;
-    List<ChargeController> listCont;
+    List<ChargePruebaController> listCont;
     List<Charge> listCharges;
     private double bX, bY;
     private int chargeCounter;
@@ -100,8 +104,9 @@ public class ChargeViewerController implements Initializable {
         }catch(AcountDAOException | IOException e){}
         
     }
-    public void setCat(Category cat)
+    public void setCat(Category cat, ChargeViewerController controller)
     {
+        controllerL = controller;
         this.cat = cat;
         this.title.setText(cat.getName());
         this.descriptionArea.setText(cat.getDescription().split("-")[1]);
@@ -116,9 +121,10 @@ public class ChargeViewerController implements Initializable {
                 if(listAux.get(i).getCategory().equals(cat))
                 {
                     listCharges.add(listAux.get(i));
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Charge.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/chargePrueba.fxml"));
                     Node node =loader.load();
-                    ChargeController cc = loader.getController();
+                    ChargePruebaController cc = loader.getController();
+                    cc.setFatherController(controllerL,  node, cc);
                     grid.add(node, 0, 2+chargeCounter, 3, 1);
                     if(grid.getRowConstraints().size() <= 2+chargeCounter)
                     {
@@ -290,5 +296,78 @@ public class ChargeViewerController implements Initializable {
         grid.setMaxHeight(scene.getHeight());
         addChargeB.setLayoutY((bY+0.0)*back.getHeight()); 
         goBack.setLayoutY((bY+0.0)*back.getHeight()); 
+    }
+    public void addCharge(String name, String description, double cost, int units, Image scanImage, LocalDate date)
+    {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../chargePrueba.fxml"));
+            Node node = loader.load();
+            ChargePruebaController controllerC = loader.getController();
+            listNodes.add(node);
+            listCont.add(controllerC);
+            listCharges = account.getUserCharges();
+            
+            if(2+chargeCounter <= 3)
+            {
+                grid.add(node, 0, 2+chargeCounter, 3, 1);
+                grid.getRowConstraints().set(2+chargeCounter++, rowC);
+                grid.setPrefHeight(177+120*2);
+            }else{
+                grid.add(node, 0, 2+chargeCounter, 3, 1);
+                grid.setPrefHeight(grid.getPrefHeight()+120 );
+                if(grid.getRowConstraints().size() <= 2+chargeCounter)
+                {
+                    grid.getRowConstraints().add(rowC);
+                }else{
+                    grid.getRowConstraints().set(2+chargeCounter, rowC);
+                }
+                chargeCounter++;
+            }
+        }catch(IOException | AcountDAOException e){}
+        
+        
+    }
+    
+    
+    
+    void moveCat(Node node, MouseEvent event, ChargePruebaController pC)
+    {
+        node.toFront();
+        pC.setY(event.getSceneY());
+        pC.setYL(pC.getY());
+    }
+    void movingCat(Node node, MouseEvent event, ChargePruebaController pC)
+    {
+        if(event.getSceneY() > grid.getHeight()){return; }
+        node.setTranslateY(node.getTranslateY()+event.getSceneY()-pC.getYL());
+        pC.setYL(event.getSceneY());
+        
+    }
+    
+    void movedCat(Node node, MouseEvent event, ChargePruebaController pC)
+    {
+        //column == row :)
+        double rowIni = GridPane.getRowIndex(node);
+        double row =(( scrollPane.getVvalue()*(grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
+        try{
+            row = (row >= chargeCounter+2 ? chargeCounter+1 : (row >= 2 ? row : 2));
+            Charge cat1 = listCharges.get((int)row-2);
+            String[] st1 = cat1.getName().split("-");
+            
+            Charge cat2 = listCharges.get((int)rowIni-2);
+            String[] st2 = cat2.getName().split("-");
+            cat1.setName(st2[0]+"-"+st1[1]);
+            cat2.setName(st1[0]+"-"+st2[1]);
+
+            listCharges = account.getUserCharges();
+            Collections.swap(listNodes, (int)row-2, (int)rowIni-2);
+            Collections.swap(listCont,  (int)row-2, (int)rowIni-2);
+            GridPane.setRowIndex(listNodes.get((int)row-2), (int)row);
+            GridPane.setRowIndex(listNodes.get((int)rowIni-2), (int)rowIni);
+            
+        }catch(AcountDAOException e){}
+        
+        node.setTranslateY(0);
+        event.consume();
     }
 }
