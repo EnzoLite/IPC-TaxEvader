@@ -5,6 +5,7 @@
 package javafxmlapplication;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -63,7 +65,7 @@ public class AddExpenseController implements Initializable {
     private TextField descriptionTextField;
     @FXML
     private Text errorMessage;
-    
+    private Category othersA;
     private ChargeViewerController chargeVController;
     private String title, description;
     private double cost;
@@ -169,7 +171,11 @@ public class AddExpenseController implements Initializable {
         }
         Ticket = ticket.getImage();
     }
-    
+    private FXMLDocumentController a;
+    void setDocumentController(FXMLDocumentController a)
+    {
+        this.a = a;
+    }
     @FXML
     void onAcceptButton(ActionEvent event){
         
@@ -205,8 +211,9 @@ public class AddExpenseController implements Initializable {
         if(costDate == null || costDate.toString().length() == 0 || costDate.toString().matches(" *")){
             errorMessage.setText("Date field cannot be empty");
         }
-        if(category == null)
+        if(a != null)
         {
+            chargeVController.setControllerDS(a);
         }
         if(chargeVController.addCharge(title, description, cost, 1, ticket.getImage(), costDate, category))
         {
