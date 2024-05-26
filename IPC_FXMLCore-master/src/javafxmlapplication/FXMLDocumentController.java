@@ -110,19 +110,19 @@ public class FXMLDocumentController implements Initializable{
     }
     
     String filler = "!"; // '!' < 'a' && '!' < '1'
-    void setControllerL(FXMLDocumentController controller) 
+    void setControllerL(FXMLDocumentController controller,Scene scene) 
     {
         controllerL = controller;
         try{
-            loadCreated();
+            loadCreated(scene);
         }catch(IOException e){System.out.println("don't understand anything");}
-        Stage stage = ((Stage)this.back.getScene().getWindow());
+        Stage stage = ((Stage)scene.getWindow());
         stage.setHeight(600);
         stage.setWidth(600);
         stage.setMinHeight(600);
         stage.setMinWidth(600);
         stage.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
-            scrollPane.setPrefHeight(grid.getScene().getHeight());
+            scrollPane.setPrefHeight(scene.getHeight());
             grid.setPrefHeight(177+120*(grid.getRowCount()-2));
         });
     }
@@ -209,7 +209,7 @@ public class FXMLDocumentController implements Initializable{
     }
     
     
-    private void loadCreated() throws IOException
+    private void loadCreated(Scene scene) throws IOException
     {
         for (Category listCat1 : listCat) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/prueba.fxml"));
@@ -232,9 +232,9 @@ public class FXMLDocumentController implements Initializable{
                 grid.getRowConstraints().set(2+counterObj, rowC);
             }
             grid.setPrefHeight(177+120*((counterObj > 2 ? counterObj : 2)));
-            if(grid.getHeight() < grid.getScene().getWindow().getHeight())
+            if(grid.getHeight() < scene.getWindow().getHeight())
             {
-                grid.setPrefHeight(grid.getScene().getWindow().getHeight()-3);
+                grid.setPrefHeight(scene.getWindow().getHeight()-3);
             }
             counterObj++;
         }

@@ -260,7 +260,7 @@ public class LogInController implements Initializable{
                         Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
                         stage1.setScene(scene);
                         FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
-                        controller.setControllerL(controller);
+
                         scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
                         controller.adjustW();
                         });
@@ -274,6 +274,7 @@ public class LogInController implements Initializable{
                             controller.adjustW();
                             controller.adjustH();
                         });
+                        controller.setControllerL(controller, scene);
                         controller.addButtons();
                     }catch(IOException e){ e.printStackTrace(); }
                 }else if(account.existsLogin(inputUs.getText())){
