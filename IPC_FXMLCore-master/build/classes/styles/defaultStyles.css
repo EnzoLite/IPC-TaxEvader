@@ -1,0 +1,29 @@
+.background{
+    -fx-background-color: #13305e;
+    -fx-background-radius: 12, 12, 0, 0;
+}
+.text{
+    -fx-fill: #ffd700;
+}
+
+.textfields{
+    -fx-background-color: #3f3f70;
+    -fx-text-fill: #9c8403;
+    -fx-prompt-text-fill: #9c8403;
+}
+
+.buttons{
+    -fx-text-fill: #ffd700;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
+
+.centered{
+    -fx-alignment: center;
+}
+
+.colorpicker{
+    -fx-text-fill: #ffd700;
+    -fx-background-color: #3f3f70;
+    -fx-background-radius: 12, 12, 0, 0;
+}
