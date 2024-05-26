@@ -92,7 +92,7 @@ public class PruebaController{
                 controller.adjustW();
                 controller.adjustH();
             });
-            controller.setCat(this.cat, controller, scene);
+            controller.setCat(this.cat, controller, scene, pC);
             stage1.setX(stage1.getX()+1);
             stage1.setX(stage1.getX()-1);
             stage1.setY(stage1.getY()+1);

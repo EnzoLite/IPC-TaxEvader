@@ -88,6 +88,7 @@ public class ChargeViewerController implements Initializable {
     List<Charge> listCharges;
     private double bX, bY;
     private int chargeCounter;
+    private PruebaController controllerP;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -117,7 +118,7 @@ public class ChargeViewerController implements Initializable {
         });
 
     }
-    public void setCat(Category cat, ChargeViewerController controller, Scene scene)
+    public void setCat(Category cat, ChargeViewerController controller, Scene scene, PruebaController controllerP)
     {
         this.scene23 = scene;
         controllerL = controller;
@@ -125,6 +126,7 @@ public class ChargeViewerController implements Initializable {
         this.title.setText(cat.getName());
         this.descriptionArea.setText(cat.getDescription().split("-")[1]);
         loadCharges();
+        this.controllerP = controllerP;
     }
     void loadCharges()
     {
@@ -332,13 +334,15 @@ public class ChargeViewerController implements Initializable {
             listCont.add(controllerC);
             StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
             for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
-            controllerC.setName(name.split("-")[1]);
+            pos.append(name);
+            controllerC.setName(name);
             controllerC.setDate(dateCategory.toString());
             controllerC.setPrice(((Double)cost).toString());
             String[] a = cat1.getDescription().split("-");
             Double d = Double.parseDouble(a[1])+cost;
+            controllerP.setPrice(d.toString());
             cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
-            account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat);
+            account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, cat);
             List<Charge> aux = account.getUserCharges();
             int counter = 0;
             for(int i = 0 ; i < aux.size() ; i++)
@@ -351,7 +355,6 @@ public class ChargeViewerController implements Initializable {
                         break;
                     }
                 }
-                
             }
             controllerC.setFatherController(controllerL, node, controllerC);
             if(2+chargeCounter <= 3)
