@@ -40,6 +40,17 @@ public class ChargePruebaController {
     void setXL( double x ){ this.xL = x; }
     void setYL( double y ){ this.yL = y; }
     String getName(){ return this.name.getText(); }
+    void setName(String name)
+    {
+        this.name.setText(name);
+    }
+    void setDate(String date){
+        this.date.setText(date);
+    }
+    void setPrice(String price)
+    {
+        this.price.setText(price);
+    }
 
 
     void setFatherController(ChargeViewerController fatherController, Node node, ChargePruebaController cPC){
@@ -64,13 +75,5 @@ public class ChargePruebaController {
     @FXML
     void moved(MouseEvent event) {
         fatherController.movedCat(node, event, cPC);
-    }
-    void setName(String text)
-    {
-        this.name.setText(text);
-    }
-    void setPrice(String price)
-    {
-        this.price.setText(price);
     }
 }

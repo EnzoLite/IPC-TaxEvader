@@ -79,7 +79,7 @@ public class ChargeViewerController implements Initializable {
 
     private Acount account;
 
-
+    private Scene scene23;
     private Category cat;
     private ChargeViewerController controllerL;
     private RowConstraints rowC = new RowConstraints();
@@ -117,8 +117,9 @@ public class ChargeViewerController implements Initializable {
         });
 
     }
-    public void setCat(Category cat, ChargeViewerController controller)
+    public void setCat(Category cat, ChargeViewerController controller, Scene scene)
     {
+        this.scene23 = scene;
         controllerL = controller;
         this.cat = cat;
         this.title.setText(cat.getName());
@@ -128,6 +129,7 @@ public class ChargeViewerController implements Initializable {
     void loadCharges()
     {
         try{
+            listCharges = new ArrayList<>();
             List<Charge> listAux = account.getUserCharges();
             for(int i = 0 ; i < listAux.size() ; i++)
             {
@@ -139,6 +141,13 @@ public class ChargeViewerController implements Initializable {
                     ChargePruebaController cc = loader.getController();
                     listCont.add(cc);
                     listNodes.add(node);
+                    StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
+                    for(int o = pos.length(); o < 10 ; o++){ pos.append("!"); }
+                    pos.append("-");
+                    pos.append(listAux.get(i).getName());
+                    cc.setName(pos.toString());
+                    cc.setDate(listAux.get(i).getDate().toString());
+                    cc.setPrice(((Double)listAux.get(i).getCost()).toString());
                     cc.setFatherController(controllerL,  node, cc);
                     grid.add(node, 0, 2+chargeCounter, 3, 1);
                     if(grid.getRowConstraints().size() <= 2+chargeCounter)
@@ -148,9 +157,9 @@ public class ChargeViewerController implements Initializable {
                         grid.getRowConstraints().set(2+chargeCounter, rowC);
                     }
                     grid.setPrefHeight(177+120*((chargeCounter > 2 ? chargeCounter : 2)));
-                    if(grid.getHeight() < grid.getScene().getWindow().getHeight())
+                    if(grid.getHeight() < scene23.getWindow().getHeight())
                     {
-                        grid.setPrefHeight(grid.getScene().getWindow().getHeight()-3);
+                        grid.setPrefHeight(scene23.getWindow().getHeight()-3);
                     }
                     chargeCounter++;
                 }
@@ -321,6 +330,8 @@ public class ChargeViewerController implements Initializable {
             ChargePruebaController controllerC = loader.getController();
             listNodes.add(node);
             listCont.add(controllerC);
+            StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
             account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat);
             List<Charge> aux = account.getUserCharges();
             int counter = 0;
@@ -379,10 +390,15 @@ public class ChargeViewerController implements Initializable {
         double rowIni = GridPane.getRowIndex(node);
         double row =(( scrollPane.getVvalue()*(grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
         try{
-            row = (row >= chargeCounter+2 ? chargeCounter+1 : (row >= 2 ? row : 2));
+            row = (row >= chargeCounter+1 ? chargeCounter+1 : (row >= 2 ? row : 2));
+            if(row == rowIni)
+            {
+                //return;
+            }
+            System.out.println(row+" "+rowIni);
             Charge cat1 = listCharges.get((int)row-2);
             String[] st1 = cat1.getName().split("-");
-
+            
             Charge cat2 = listCharges.get((int)rowIni-2);
             String[] st2 = cat2.getName().split("-");
             cat1.setName(st2[0]+"-"+st1[1]);
@@ -393,9 +409,7 @@ public class ChargeViewerController implements Initializable {
             Collections.swap(listCont,  (int)row-2, (int)rowIni-2);
             GridPane.setRowIndex(listNodes.get((int)row-2), (int)row);
             GridPane.setRowIndex(listNodes.get((int)rowIni-2), (int)rowIni);
-
         }catch(AcountDAOException e){}
-
         node.setTranslateY(0);
         event.consume();
     }
