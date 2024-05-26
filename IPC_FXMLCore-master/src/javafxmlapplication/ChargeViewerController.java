@@ -6,6 +6,7 @@ package javafxmlapplication;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.ScaleTransition;
@@ -23,13 +24,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.Acount;
+import model.AcountDAOException;
 import model.Category;
 import model.Charge;
+import model.User;
 /**
  *
  * @author marcos
@@ -61,17 +66,80 @@ public class ChargeViewerController implements Initializable {
     @FXML
     private Button userB;
     
-    private ChargeViewerController controllerL;
+    @FXML
+    private Text title;
     
+    
+    @FXML
+    private TextArea descriptionArea;
+    
+    private Acount account;
+    
+    
+    private Category cat;
+    private ChargeViewerController controllerL;
+    private RowConstraints rowC = new RowConstraints();
     List<Node> listNodes;
     List<ChargeController> listCont;
-    List<Charge> listCat;
+    List<Charge> listCharges;
+    private double bX, bY;
+    private int chargeCounter;
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         addChargeB.setOnAction(event -> showAnimatedPanel());
+        bX = 0.88333333333333;
+        bY = 0.825;
+        chargeCounter = 0;
+        rowC.setMinHeight(120);
+        rowC.setPrefHeight(120);
+        rowC.setMaxHeight(Double.MAX_VALUE);
+        try{
+            account = Acount.getInstance();
+            listCharges = new ArrayList<>();
+        }catch(AcountDAOException | IOException e){}
+        
     }
-    
-        private void showAnimatedPanel() {
+    public void setCat(Category cat)
+    {
+        this.cat = cat;
+        this.title.setText(cat.getName());
+        this.descriptionArea.setText(cat.getDescription().split("-")[1]);
+        loadCharges();
+    }
+    void loadCharges()
+    {
+        try{
+            List<Charge> listAux = account.getUserCharges();
+            for(int i = 0 ; i < listAux.size() ; i++)
+            {
+                if(listAux.get(i).getCategory().equals(cat))
+                {
+                    listCharges.add(listAux.get(i));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Charge.fxml"));
+                    Node node =loader.load();
+                    ChargeController cc = loader.getController();
+                    grid.add(node, 0, 2+chargeCounter, 3, 1);
+                    if(grid.getRowConstraints().size() <= 2+chargeCounter)
+                    {
+                        grid.getRowConstraints().add(rowC);
+                    }else{
+                        grid.getRowConstraints().set(2+chargeCounter, rowC);
+                    }
+                    grid.setPrefHeight(177+120*((chargeCounter > 2 ? chargeCounter : 2)));
+                    if(grid.getHeight() < grid.getScene().getWindow().getHeight())
+                    {
+                        grid.setPrefHeight(grid.getScene().getWindow().getHeight()-3);
+                    }
+                    chargeCounter++;
+                }
+            }
+        }catch(AcountDAOException | IOException e){}
+        User us = account.getLoggedUser();
+        
+        
+    }
+    private void showAnimatedPanel() {
         if (animatedPanel != null) {
             grid.getChildren().remove(animatedPanel);
         }
@@ -94,34 +162,31 @@ public class ChargeViewerController implements Initializable {
         animatedPanel.setStyle("-fx-background-color: lightgray;");
         
         //Button creation
-        Button createCat = new Button("Create new category");
         Button createCharge = new Button("Create new charge");
         Button exits = new Button("Cancel");
         
         //Adding Buttons to pane
-        animatedPanel.getChildren().add(createCat);
         animatedPanel.getChildren().add(createCharge);
         animatedPanel.getChildren().add(exits);
         
         //AnimatedPanel Layout
         animatedPanel.setPrefWidth(back.getWidth()/3.0);
-        animatedPanel.setPrefHeight(26*3);
+        animatedPanel.setPrefHeight(26*2);
         animatedPanel.setMaxWidth(back.getWidth()/3.0);
-        animatedPanel.setMaxHeight(26*3);
+        animatedPanel.setMaxHeight(26*2);
         animatedPanel.setLayoutX(addChargeB.getLayoutX()+addChargeB.getWidth()-animatedPanel.getPrefWidth());
         animatedPanel.setLayoutY(addChargeB.getLayoutY() + addChargeB.getHeight()-animatedPanel.getPrefHeight());
 
         //Buttons size
-        createCat.setPrefWidth(animatedPanel.getMaxWidth());
         createCharge.setPrefWidth(animatedPanel.getMaxWidth());
         exits.setPrefWidth(animatedPanel.getMaxWidth());
         
         
-        TranslateTransition translateTransition = new TranslateTransition((Duration)Duration.millis(250), animatedPanel);
+        TranslateTransition translateTransition = new TranslateTransition((Duration)Duration.millis(180), animatedPanel);
         translateTransition.setFromY((double)addChargeB.getHeight());
         translateTransition.setToY(0);
 
-        ScaleTransition scaleTransition = new ScaleTransition((Duration)Duration.millis(250), animatedPanel);
+        ScaleTransition scaleTransition = new ScaleTransition((Duration)Duration.millis(180), animatedPanel);
         scaleTransition.setFromY(0);
         scaleTransition.setToY(1);
 
@@ -129,7 +194,7 @@ public class ChargeViewerController implements Initializable {
         scaleTransition.play();
         animatedPanel.requestFocus();
         animatedPanel.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue && !exits.isFocused() && !createCat.isFocused() && !createCharge.isFocused())
+            if(!newValue && !exits.isFocused() && !createCharge.isFocused())
             {
                 animatedPanel.setVisible(false);
                 blockingPane.setVisible(false);
@@ -141,7 +206,7 @@ public class ChargeViewerController implements Initializable {
         );
         exits.focusedProperty().addListener((c, oldValue, newValue)->{
             
-            if(!newValue && !animatedPanel.isFocused() && !createCat.isFocused() && !createCharge.isFocused())
+            if(!newValue && !animatedPanel.isFocused() && !createCharge.isFocused())
             {
                 blockingPane.setVisible(false);
                 animatedPanel.setVisible(false);
@@ -150,19 +215,8 @@ public class ChargeViewerController implements Initializable {
                 animatedPanel.setVisible(true);
             }
         });
-        createCat.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue && !exits.isFocused() && !animatedPanel.isFocused() && !createCharge.isFocused())
-            {
-                blockingPane.setVisible(false);
-                animatedPanel.setVisible(false);
-            }else{
-                animatedPanel.setVisible(true);
-                blockingPane.setVisible(true);
-            }
-        }
-        );
         createCharge.focusedProperty().addListener((c, oldValue, newValue)->{
-            if(!newValue && !exits.isFocused() && !createCat.isFocused() && !animatedPanel.isFocused())
+            if(!newValue && !exits.isFocused() && !animatedPanel.isFocused())
             {
                 blockingPane.setVisible(false);
                 animatedPanel.setVisible(false);
@@ -201,21 +255,40 @@ public class ChargeViewerController implements Initializable {
             
             
         });
-        createCat.setOnAction((c)->{
-            try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddCategory.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage st = new Stage();
-                ((AddExpenseController)loader.getController()).setMainController(this.controllerL);
-                st.setScene(scene);
-                st.show();
-                st.setHeight(600);
-                st.setWidth(900);
-                st.setResizable(false);
-                try{
-                    st.showAndWait();
-                }catch(IllegalStateException e){}
-            }catch(IOException e){e.printStackTrace();}
-        });
+    }
+        
+    void adjustW(){
+        if(grid.getScene() == null) return;
+        if(animatedPanel != null)
+        {
+            animatedPanel.setVisible(false);
+        }
+        Scene scene = grid.getScene();
+        back.setPrefWidth(scene.getWidth());
+        scrollPane.setPrefWidth(scene.getWidth());
+        grid.setPrefWidth(scene.getWidth());
+        back.setMaxWidth(scene.getWidth());
+        scrollPane.setMaxWidth(scene.getWidth());
+        grid.setMaxWidth(scene.getWidth());
+        addChargeB.setLayoutX((0.0+bX)*back.getWidth());
+        goBack.setLayoutX(back.getWidth()-addChargeB.getLayoutX());
+        
+    }
+    void adjustH(){
+        if(grid.getScene() == null) return;
+        if(animatedPanel != null)
+        {
+            animatedPanel.setVisible(false);
+            
+        }
+        Scene scene = grid.getScene();
+        back.setPrefHeight(scene.getHeight());
+        scrollPane.setPrefHeight(scene.getHeight());
+        grid.setPrefHeight(scene.getHeight());
+        back.setMaxHeight(scene.getHeight());
+        scrollPane.setMaxHeight(scene.getHeight());
+        grid.setMaxHeight(scene.getHeight());
+        addChargeB.setLayoutY((bY+0.0)*back.getHeight()); 
+        goBack.setLayoutY((bY+0.0)*back.getHeight()); 
     }
 }

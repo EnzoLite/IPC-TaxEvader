@@ -4,6 +4,7 @@
  */
 package javafxmlapplication;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Acount;
 import model.AcountDAO;
@@ -60,6 +62,10 @@ public class UpdateUserController implements Initializable{
 
     @FXML
     private Button cancelB;
+    
+    
+    @FXML
+    private Button buttonImage;
     
     private String firstName, lastName, nickName, email, password;
     private Image photos;
@@ -124,7 +130,17 @@ public class UpdateUserController implements Initializable{
         us.setName(firstName);
         us.setSurname(lastName);
         us.setPassword(password);
-        
-        
+        us.setImage(photo.getImage());
+    }
+    @FXML
+    void setPhoto(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg"));
+        File selectedFile = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
+        try{
+            photo.setImage(new Image(selectedFile.toURI().toURL().toExternalForm()));
+        }catch(Exception e){
+        }
     }
 }

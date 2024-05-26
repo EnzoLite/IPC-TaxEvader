@@ -1,13 +1,19 @@
 package javafxmlapplication;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import model.Category;
 public class PruebaController{
     
     @FXML
@@ -18,10 +24,13 @@ public class PruebaController{
     private Text price;
     @FXML
     private StackPane back;
+    @FXML
+    private Button bigButton;
     
     private int pos;
     private Node node;
     FXMLDocumentController fatherController;
+    Category cat;
     PruebaController pC;
     @FXML
     private Rectangle rectangle;
@@ -38,11 +47,12 @@ public class PruebaController{
     String getName(){ return this.name.getText(); }
     
     
-    void setFatherController(FXMLDocumentController fatherController, Node node, PruebaController pC, int pos){
+    void setFatherController(FXMLDocumentController fatherController, Node node, PruebaController pC, int pos, Category cat){
         this.fatherController = fatherController;
         this.node = node;
         this.pC = pC;
         this.pos = pos;
+        this.cat = cat;
     }
             
     StackPane getBack()
@@ -61,6 +71,36 @@ public class PruebaController{
     @FXML
     void moved(MouseEvent event) {
         fatherController.movedCat(node, event, pC);
+    }
+    @FXML
+    void enterCat(ActionEvent actionEvent)
+    {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ChargeViewer.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage1 = (Stage) node.getScene().getWindow();
+            ChargeViewerController controller = loader.getController();
+            stage1.setScene(scene);
+            scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            controller.adjustW();
+            });
+
+            scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+                controller.adjustH();
+            });
+            stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+                controller.adjustW();
+                controller.adjustH();
+            });
+            stage1.setX(stage1.getX()+1);
+            stage1.setX(stage1.getX()-1);
+            controller.adjustH();
+            controller.adjustW();
+            controller.adjustH();
+        }catch(IOException e)
+        {
+            
+        }
     }
     void setName(String text)
     {

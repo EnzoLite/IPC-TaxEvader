@@ -436,4 +436,21 @@ public class LogInController implements Initializable{
         correctUs = false;
         correctPass = false;
     }
+    public void comingBack()
+    {
+        back.setLayoutX(0);
+        back.setLayoutY(0);
+        Stage stage1 = (Stage) back.getScene().getWindow();
+        back.setPrefWidth(stage1.getWidth());
+        System.out.println(stage1.getWidth());
+        back.setPrefHeight(stage1.getHeight());
+        adjustH();
+        adjustW();
+        if(stage1.isFullScreen())
+        {
+            System.out.println("Hellos");
+            stage1.setFullScreen(false);
+        }
+        emptyFields();
+    }
 }

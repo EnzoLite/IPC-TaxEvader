@@ -135,8 +135,8 @@ public class FXMLDocumentController implements Initializable{
         adder.setOnAction(event -> showAnimatedPanel());
         try{
             account = Acount.getInstance();
-            //account.registerUser("M", "M", "M", "M", "M", null, LocalDate.now());
-            account.logInUserByCredentials("M","M");
+            //account.registerUser("h", "h", "h", "h", "h", null, LocalDate.now());
+            account.logInUserByCredentials("h","h");
             Image image = account.getLoggedUser().getImage();
             if( image == null ){
                 photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
@@ -145,22 +145,19 @@ public class FXMLDocumentController implements Initializable{
             }
             //Image image2 = new Image("../../resources/images/fotoLogOut.jpg");
             //logOut.setImage(image2);
-            List<Category> cats = account.getUserCategories();
-            for( int i = 0 ; i < cats.size() ; i++)
-            {
-                account.removeCategory(cats.get(i));
-            }
             buttonOut.setOnAction((c)->{
                 account.logOutUser();
                 LogInController contr = LogInController.getLogInController();
-                contr.emptyFields();
                 Scene sceneL = contr.getScene();
                 ((Stage)grid.getScene().getWindow()).setScene(sceneL);
+                contr.comingBack();
+                contr.adjustH();
+                contr.adjustW();
             });
             
             listCat = account.getUserCategories();
-            listNodes = new ArrayList<Node>(50);
-            listCont = new ArrayList<PruebaController>(50);
+            listNodes = new ArrayList<>(50);
+            listCont = new ArrayList<>(50);
             rowC.setMinHeight(120);
             rowC.setPrefHeight(120);
             rowC.setMaxHeight(Double.MAX_VALUE);
@@ -216,7 +213,7 @@ public class FXMLDocumentController implements Initializable{
     private void loadCreated() throws IOException
     {
         for (Category listCat1 : listCat) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("prueba.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/prueba.fxml"));
             Node obj = loader.load();
             listNodes.add(obj);
             PruebaController pController = loader.getController();
@@ -224,9 +221,9 @@ public class FXMLDocumentController implements Initializable{
             
             String[] a = listCat1.getName().split("-");
             pController.setName(a[1]);
-            
-            pController.setPrice(listCat1.getDescription());
-            pController.setFatherController(controllerL, obj, pController,2+counterObj);
+            String[] b = listCat1.getDescription().split("-");
+            pController.setPrice(b[1]);
+            pController.setFatherController(controllerL, obj, pController,2+counterObj, listCat1);
            
             grid.add(obj, 0, 2+counterObj, 3, 1);
             if(grid.getRowConstraints().size() <= 2+counterObj)
@@ -458,18 +455,18 @@ public class FXMLDocumentController implements Initializable{
                 String colors = color.toString();
                 colors = "#"+colors.substring(2);
                 System.out.println("Hello");
-                boolean added = account.registerCategory(pos.toString()+name1, colors+"-"+description1);
+                boolean added = account.registerCategory(pos.toString()+name1, colors+"-0-"+description1);
                 if(added)
                 {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/prueba.fxml"));
                     Node obj = loader.load();
                     PruebaController pController = loader.getController();
                     pController.setName(name1);
-                    pController.setPrice(description1);
+                    pController.setPrice("0");
                     pController.setRectangle(colors);
-                    pController.setFatherController(controllerL, obj, pController,2+counterObj);
                     listCont.add(pController);
                     listCat = account.getUserCategories();
+                    pController.setFatherController(controllerL, obj, pController,2+counterObj, listCat.get(counterObj));
                     listNodes.add(obj);
                     if(2+counterObj <= 3)
                     {
