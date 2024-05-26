@@ -245,34 +245,7 @@ public class LogInController implements Initializable{
     @FXML
     void enterApp(ActionEvent event) {
         String pass = inputPass.getText(), username = inputUs.getText();
-        Stage stage1 = (Stage)inputPass.getScene().getWindow();
-        
-        
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainScene.fxml"));
-            Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
-            stage1.setScene(scene);
-            FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
-            controller.setControllerL(controller);
-            scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            controller.adjustW();
-            });
-
-            scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
-                controller.adjustH();
-            });
-            stage1.setX(stage1.getX()+1);
-            stage1.setX(stage1.getX()-1);
-            stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
-                controller.adjustW();
-                controller.adjustH();
-            });
-            controller.addButtons(); 
-            return; 
-        }catch(IOException e){ e.printStackTrace(); }
-        
-        
-        
+        Stage stage1 = (Stage)inputPass.getScene().getWindow();        
         if(pass.length() == 0 || username.length() == 0)
         {
             messages.setText("All fields must be filled.");
@@ -282,8 +255,27 @@ public class LogInController implements Initializable{
                 boolean isOk = account.logInUserByCredentials(username,pass);
                 if(isOk)
                 {
-                    Stage stage = (Stage)inputPass.getScene().getWindow();
-                    // stage.setScene(app);
+                    try{
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainScene.fxml"));
+                        Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
+                        stage1.setScene(scene);
+                        FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
+                        controller.setControllerL(controller);
+                        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+                        controller.adjustW();
+                        });
+
+                        scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+                            controller.adjustH();
+                        });
+                        stage1.setX(stage1.getX()+1);
+                        stage1.setX(stage1.getX()-1);
+                        stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+                            controller.adjustW();
+                            controller.adjustH();
+                        });
+                        controller.addButtons();
+                    }catch(IOException e){ e.printStackTrace(); }
                 }else if(account.existsLogin(inputUs.getText())){
                     messages.setText("Incorrect password");
                 }else{

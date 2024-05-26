@@ -135,8 +135,6 @@ public class FXMLDocumentController implements Initializable{
         adder.setOnAction(event -> showAnimatedPanel());
         try{
             account = Acount.getInstance();
-            //account.registerUser("h", "h", "h", "h", "h", null, LocalDate.now());
-            account.logInUserByCredentials("h","h");
             Image image = account.getLoggedUser().getImage();
             if( image == null ){
                 photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
