@@ -205,6 +205,9 @@ public class AddExpenseController implements Initializable {
         if(costDate == null || costDate.toString().length() == 0 || costDate.toString().matches(" *")){
             errorMessage.setText("Date field cannot be empty");
         }
+        if(category == null)
+        {
+        }
         if(chargeVController.addCharge(title, description, cost, 1, ticket.getImage(), costDate, category))
         {
             Stage stage = (Stage)titleTextField.getScene().getWindow();

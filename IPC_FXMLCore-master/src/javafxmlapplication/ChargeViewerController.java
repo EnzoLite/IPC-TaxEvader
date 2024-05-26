@@ -338,11 +338,19 @@ public class ChargeViewerController implements Initializable {
             controllerC.setName(name);
             controllerC.setDate(dateCategory.toString());
             controllerC.setPrice(((Double)cost).toString());
-            String[] a = cat1.getDescription().split("-");
-            Double d = Double.parseDouble(a[1])+cost;
-            controllerP.setPrice(d.toString());
-            cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
-            account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, cat);
+            if(cat != null)
+            {
+                String[] a = cat.getDescription().split("-");
+                Double d = Double.parseDouble(a[1])+cost;
+                cat.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
+                controllerP.setPrice(d.toString());
+                account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, cat);
+            }else{
+                String[] a = cat1.getDescription().split("-");
+                Double d = Double.parseDouble(a[1])+cost;
+                cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
+                account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, cat1);
+            }
             List<Charge> aux = account.getUserCharges();
             int counter = 0;
             for(int i = 0 ; i < aux.size() ; i++)

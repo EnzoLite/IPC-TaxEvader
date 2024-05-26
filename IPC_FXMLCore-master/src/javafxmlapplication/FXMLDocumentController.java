@@ -136,6 +136,10 @@ public class FXMLDocumentController implements Initializable{
         adder.setOnAction(event -> showAnimatedPanel());
         try{
             account = Acount.getInstance();
+            try{
+                account.registerCategory("!!!!!!!!!!-Others", "#000000-0-Charges without category" );
+            }catch(Exception e){}
+            
             List<Charge> list = account.getUserCharges();
             List<Category> listC = account.getUserCategories();
             Image image = account.getLoggedUser().getImage();
@@ -157,7 +161,6 @@ public class FXMLDocumentController implements Initializable{
                 ((Stage)sceneL.getWindow()).setFullScreen(true);
                 ((Stage)sceneL.getWindow()).setFullScreen(false);
             });
-            
             listCat = account.getUserCategories();
             listNodes = new ArrayList<>(50);
             listCont = new ArrayList<>(50);
