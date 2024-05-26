@@ -331,7 +331,13 @@ public class ChargeViewerController implements Initializable {
             listNodes.add(node);
             listCont.add(controllerC);
             StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
-                for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
+            for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
+            controllerC.setName(name.split("-")[1]);
+            controllerC.setDate(dateCategory.toString());
+            controllerC.setPrice(((Double)cost).toString());
+            String[] a = cat1.getDescription().split("-");
+            Double d = Double.parseDouble(a[1])+cost;
+            cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
             account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat);
             List<Charge> aux = account.getUserCharges();
             int counter = 0;
