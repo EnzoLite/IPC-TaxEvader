@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -412,6 +413,7 @@ public class FXMLDocumentController implements Initializable{
         pC.setYL(event.getSceneY());
         
     }
+    
     void movedCat(Node node, MouseEvent event, PruebaController pC)
     {
         //column == row :)
@@ -421,19 +423,15 @@ public class FXMLDocumentController implements Initializable{
             row = (row >= counterObj+2 ? counterObj+1 : (row >= 2 ? row : 2));
             Category cat1 = listCat.get((int)row-2);
             String[] st1 = cat1.getName().split("-");
+            
             Category cat2 = listCat.get((int)rowIni-2);
             String[] st2 = cat2.getName().split("-");
-            account.removeCategory(cat1);
-            account.removeCategory(cat2);
             cat1.setName(st2[0]+"-"+st1[1]);
             cat2.setName(st1[0]+"-"+st2[1]);
-            account.registerCategory(cat1.getName(),cat1.getDescription());
-            account.registerCategory(cat2.getName(), cat2.getDescription());
+
             listCat = account.getUserCategories();
-            listNodes.set((int)rowIni-2, listNodes.get((int)row-2));
-            listNodes.set((int)row-2, node);
-            listCont.set((int)rowIni-2, listCont.get((int)row-2));
-            listCont.set((int)row-2, pC);
+            Collections.swap(listNodes, (int)row-2, (int)rowIni-2);
+            Collections.swap(listCont,  (int)row-2, (int)rowIni-2);
             GridPane.setRowIndex(listNodes.get((int)row-2), (int)row);
             GridPane.setRowIndex(listNodes.get((int)rowIni-2), (int)rowIni);
             
@@ -442,7 +440,8 @@ public class FXMLDocumentController implements Initializable{
         node.setTranslateY(0);
         event.consume();
     }
-        public boolean addCategory(String name1, String description1, Color color)
+    
+    public boolean addCategory(String name1, String description1, Color color)
         {
             try{
    
