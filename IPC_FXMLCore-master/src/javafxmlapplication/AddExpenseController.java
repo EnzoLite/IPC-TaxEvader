@@ -71,7 +71,6 @@ public class AddExpenseController implements Initializable {
     private Image Ticket;
     private Category category;
     private Charge charge;
-    Acount signUp;
     List<Category> categories;
     @FXML
     private ColorPicker myColorPicker;
@@ -90,7 +89,7 @@ public class AddExpenseController implements Initializable {
                 Bindings.or(categoryPicker.textProperty().isEmpty(), 
                 datePicker.getEditor().textProperty().isEmpty())))));
         try{
-            categories = signUp.getUserCategories();
+            //categories = chargeVController.getUserCategories();
             for(int i = 0; i < categories.size(); i++){
                 MenuItem item = new MenuItem(categories.get(i).getName());
                 categoryPicker.getItems().addAll(item);
@@ -171,7 +170,7 @@ public class AddExpenseController implements Initializable {
     @FXML
     void onAcceptButton(ActionEvent event){
         
-        try{
+        /*try{
             if(signUp.registerCharge(title, description, cost, 2, Ticket, costDate, category)){
                 //categories.setPrice(categoryPicker.getText());
                 acceptButton.getScene().getWindow().hide();
@@ -184,7 +183,25 @@ public class AddExpenseController implements Initializable {
             }
         }catch(Exception e){
             
+        }*/
+        
+        /*if((title== null || title.length() == 0 || title.matches(" *")))
+        {
+            errorMessage.setText("Name field cannot be empty");
+            return;
         }
+        if(description == null || description.length() == 0 || description.matches(" *"))
+        {
+            errorMessage.setText("Description field cannot be empty");
+            return;
+        }
+        if(chargeVController.addCharge(title, description))
+        {
+            Stage stage = (Stage)titleTextField.getScene().getWindow();
+            stage.close();
+        }else{
+            errorMessage.setText("You already have a category with that name");
+        }*/
     }
 
     @FXML

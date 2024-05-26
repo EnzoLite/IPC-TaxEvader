@@ -5,6 +5,7 @@
 package javafxmlapplication;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -76,8 +77,5 @@ public class ChargePruebaController {
     void setPrice(String price)
     {
         this.price.setText(price);
-    }
-    void setDate(String date){
-        this.date.setText(date);
     }
 }
