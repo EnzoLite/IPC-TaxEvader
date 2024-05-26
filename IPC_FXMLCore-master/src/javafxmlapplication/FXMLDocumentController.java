@@ -151,6 +151,8 @@ public class FXMLDocumentController implements Initializable{
                 contr.comingBack();
                 contr.adjustH();
                 contr.adjustW();
+                ((Stage)sceneL.getWindow()).setFullScreen(true);
+                ((Stage)sceneL.getWindow()).setFullScreen(false);
             });
             
             listCat = account.getUserCategories();
