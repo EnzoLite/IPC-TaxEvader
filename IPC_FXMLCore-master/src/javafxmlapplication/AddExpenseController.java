@@ -17,7 +17,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -96,6 +98,12 @@ public class AddExpenseController implements Initializable {
         }catch(Exception e){
             
         }
+        datePicker.setDayCellFactory(param -> new DateCell(){
+            public void updateItem(LocalDate date, boolean empty){
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now())>0);
+            }
+        });
     }    
 
     @FXML
@@ -141,14 +149,7 @@ public class AddExpenseController implements Initializable {
     }
     @FXML
     private void onDatePicker(ActionEvent event) {
-        LocalDate today = LocalDate.now();
-        if(datePicker.getValue().isAfter(today)){
-            errorMessage.setText("You cannot select a future date");
-            costDate = null;
-        }
-        else{
-            costDate = datePicker.getValue();
-        }
+        costDate = datePicker.getValue();
     }
     @FXML
     void onTicket(ActionEvent event) {
