@@ -185,7 +185,7 @@ public class AddExpenseController implements Initializable {
             
         }*/
         
-        /*if((title== null || title.length() == 0 || title.matches(" *")))
+        if((title== null || title.length() == 0 || title.matches(" *")))
         {
             errorMessage.setText("Name field cannot be empty");
             return;
@@ -195,21 +195,24 @@ public class AddExpenseController implements Initializable {
             errorMessage.setText("Description field cannot be empty");
             return;
         }
-        if(chargeVController.addCharge(title, description))
+        if(costTextField.getText() == null || costTextField.getText().length() == 0 || costTextField.getText().matches(" *")){
+            errorMessage.setText("Cost field cannot be empty");
+        }
+        if(costDate == null || costDate.toString().length() == 0 || costDate.toString().matches(" *")){
+            errorMessage.setText("Date field cannot be empty");
+        }
+        if(category == null){
+            errorMessage.setText("Category field cannot be empty");
+        }
+        if(chargeVController.addCharge(title, description, cost, 1, ticket, costDate))
         {
             Stage stage = (Stage)titleTextField.getScene().getWindow();
             stage.close();
         }else{
-            errorMessage.setText("You already have a category with that name");
-        }*/
+            errorMessage.setText("You already have a charge with that name");
+        }
     }
 
-    @FXML
-    void onColorPicker()
-    {
-        
-        
-    }
     @FXML
     void onCancelButton(ActionEvent event) {
         ((Stage)cancelButton.getScene().getWindow()).close();

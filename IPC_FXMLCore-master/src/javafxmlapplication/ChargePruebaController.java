@@ -78,4 +78,7 @@ public class ChargePruebaController {
     {
         this.price.setText(price);
     }
+    void setDate(String date){
+        this.date.setText(date);
+    }
 }
