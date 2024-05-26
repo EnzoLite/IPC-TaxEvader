@@ -30,7 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -93,7 +92,7 @@ public class AddExpenseController implements Initializable {
         try{
             categories = signUp.getUserCategories();
             for(int i = 0; i < categories.size(); i++){
-                MenuItem item = new MenuItem(category.getName());
+                MenuItem item = new MenuItem(categories.get(i).getName());
                 categoryPicker.getItems().addAll(item);
             }
         }catch(Exception e){
@@ -117,16 +116,19 @@ public class AddExpenseController implements Initializable {
     }
     @FXML
     void onCategoryPicker(ActionEvent event) {
-        try{
-            categories = signUp.getUserCategories();
-            for(int i = 0; i < categories.size(); i++){
-                MenuItem item = new MenuItem(category.getName());
-                categoryPicker.getItems().addAll(item);
-                item.setOnAction(e -> categoryPicker.setText(item.getText()));
-            }
-        }catch(Exception e){
-            errorMessage.setText("The category selected does not exist");
+        
+        for(int i = 0; i < categories.size(); i++){
+            MenuItem item = new MenuItem(categories.get(i).getName());
+            item.setOnAction(e -> categoryPicker.setText(item.getText()));
         }
+        for(int i = 0; i < categories.size(); i++){
+            Category aux = categories.get(i);
+            if(categoryPicker.getText() == aux.getName()){
+                category = aux;
+                break;
+            }
+        }
+            
     }
     @FXML
     void onCostTextField(KeyEvent event) {
@@ -178,7 +180,7 @@ public class AddExpenseController implements Initializable {
                 if(title == "") errorMessage.setText("You need to fill the Title field");
                 else if(description == "") errorMessage.setText("You need to fill the Description field");
                 else if(costDate == null) errorMessage.setText("You need to fill the Date field");
-                //else if(category == null) errorMessage.setText("You need to fill the Category field");
+                else if(category == null) errorMessage.setText("You need to fill the Category field");
             }
         }catch(Exception e){
             
