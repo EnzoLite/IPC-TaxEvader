@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import model.Acount;
 import model.AcountDAO;
 import model.AcountDAOException;
@@ -71,6 +72,8 @@ public class UpdateUserController implements Initializable{
         try{
             account = Acount.getInstance();
         }catch(AcountDAOException | IOException e){}
+        back.setPrefWidth(500);
+        back.setPrefHeight(600);
         us = account.getLoggedUser();
         firstName = us.getName();
         lastName = us.getSurname();
@@ -93,7 +96,9 @@ public class UpdateUserController implements Initializable{
         Node a = back.getParent();
         ((Pane)a).getChildren().remove(back);
         FXMLDocumentController docController = FXMLDocumentController.getController();
+        ((Stage)docController.blockingPane.getScene().getWindow()).setResizable(true);
         docController.blockingPane.setVisible(false);
+        
     }
 
     @FXML
