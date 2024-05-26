@@ -46,7 +46,7 @@ import model.Charge;
 
 public class FXMLDocumentController implements Initializable{
 
-    FXMLDocumentController controllerL;
+    static FXMLDocumentController controllerL;
     Acount account;
     @FXML
     private Button adder;
@@ -76,7 +76,6 @@ public class FXMLDocumentController implements Initializable{
     List<Node> listNodes;
     List<PruebaController> listCont;
     List<Category> listCat;
-    List<Charge> listChar;
     private AnchorPane pane;
     private TextField userName, password;
     //Button adder position ratios
@@ -86,8 +85,8 @@ public class FXMLDocumentController implements Initializable{
     String name="", description="";
     TextField nameField;
     TextArea descriptionField;
-    
-        @FXML
+    public Pane blockingPane;
+    @FXML
     void updateUser(ActionEvent event) {
         FXMLLoader loaderU = new FXMLLoader(getClass().getResource("../view/updateUser.fxml"));
         try{
@@ -95,7 +94,7 @@ public class FXMLDocumentController implements Initializable{
             UpdateUserController updateController = loaderU.getController();
             Stage stU = (Stage)buttonOut.getScene().getWindow();
             stU.setResizable(false);
-            Pane blockingPane = new Pane();
+            blockingPane = new Pane();
             back.getChildren().add(blockingPane);
             blockingPane.setPrefHeight(back.getHeight());
             blockingPane.setPrefWidth(back.getWidth());
@@ -113,7 +112,7 @@ public class FXMLDocumentController implements Initializable{
     String filler = "!"; // '!' < 'a' && '!' < '1'
     void setControllerL(FXMLDocumentController controller) 
     {
-        this.controllerL = controller;
+        controllerL = controller;
         try{
             loadCreated();
         }catch(IOException e){System.out.println("don't understand anything");}
@@ -126,6 +125,10 @@ public class FXMLDocumentController implements Initializable{
             scrollPane.setPrefHeight(grid.getScene().getHeight());
             grid.setPrefHeight(177+120*(grid.getRowCount()-2));
         });
+    }
+    static FXMLDocumentController getController()
+    {
+        return controllerL;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -166,20 +169,21 @@ public class FXMLDocumentController implements Initializable{
     }
     void addButtons() throws IOException
     {
-        bX = adder.getLayoutX()/(back.getWidth()+0.0);
-        System.out.println(bX);
-        bY = adder.getLayoutY()/(back.getHeight()+0.0);
-        System.out.println(bY);
+        back.setPrefHeight(back.getScene().getWindow().getHeight());
+        scrollPane.setPrefHeight(back.getHeight());
+        bX = 0.88333333333;
+        bY = 0.825;
+        Stage stage3 = (Stage)back.getScene().getWindow();
+        adder.setLayoutX((0.0+bX)*back.getWidth());
+        adder.setLayoutY((bY+0.0)*back.getHeight()); 
     }
 
     
     void adjustW(){
-        
+        if(grid.getScene() == null) return;
         if(animatedPanel != null)
         {
             animatedPanel.setVisible(false);
-            name =nameField.getText();
-            description = descriptionField.getText();
         }
         Scene scene = grid.getScene();
         back.setPrefWidth(scene.getWidth());
@@ -189,14 +193,13 @@ public class FXMLDocumentController implements Initializable{
         scrollPane.setMaxWidth(scene.getWidth());
         grid.setMaxWidth(scene.getWidth());
         adder.setLayoutX((0.0+bX)*back.getWidth());
+        
     }
     void adjustH(){
-        
+        if(grid.getScene() == null) return;
         if(animatedPanel != null)
         {
             animatedPanel.setVisible(false);
-            name =nameField.getText();
-            description = descriptionField.getText();
             
         }
         Scene scene = grid.getScene();
@@ -224,7 +227,7 @@ public class FXMLDocumentController implements Initializable{
             
             pController.setPrice(listCat1.getDescription());
             pController.setFatherController(controllerL, obj, pController,2+counterObj);
-            
+           
             grid.add(obj, 0, 2+counterObj, 3, 1);
             if(grid.getRowConstraints().size() <= 2+counterObj)
             {
@@ -233,10 +236,13 @@ public class FXMLDocumentController implements Initializable{
                 grid.getRowConstraints().set(2+counterObj, rowC);
             }
             grid.setPrefHeight(177+120*((counterObj > 2 ? counterObj : 2)));
+            if(grid.getHeight() < grid.getScene().getWindow().getHeight())
+            {
+                grid.setPrefHeight(grid.getScene().getWindow().getHeight()-3);
+            }
             counterObj++;
         }
     }
-    
     
     private void showAnimatedPanel() {
         if (animatedPanel != null) {
@@ -312,8 +318,6 @@ public class FXMLDocumentController implements Initializable{
             }else{
                 animatedPanel.setVisible(true);
                 blockingPane.setVisible(true);
-                name =nameField.getText();
-                description = descriptionField.getText();
             }
         }
         );
@@ -326,8 +330,6 @@ public class FXMLDocumentController implements Initializable{
             }else{
                 blockingPane.setVisible(true);
                 animatedPanel.setVisible(true);
-                name =nameField.getText();
-                description = descriptionField.getText();
             }
         });
         createCat.focusedProperty().addListener((c, oldValue, newValue)->{
@@ -338,8 +340,6 @@ public class FXMLDocumentController implements Initializable{
             }else{
                 animatedPanel.setVisible(true);
                 blockingPane.setVisible(true);
-                name =nameField.getText();
-                description = descriptionField.getText();
             }
         }
         );
@@ -351,8 +351,6 @@ public class FXMLDocumentController implements Initializable{
             }else{
                 animatedPanel.setVisible(true);
                 blockingPane.setVisible(true);
-                name =nameField.getText();
-                description = descriptionField.getText();
             }
         });   
         exits.setOnAction((c)->{back.requestFocus();});
@@ -421,7 +419,6 @@ public class FXMLDocumentController implements Initializable{
         //column == row :)
         double rowIni = GridPane.getRowIndex(node);
         double row =(( scrollPane.getVvalue()*(grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
-        System.out.println(row);
         try{
             row = (row >= counterObj+2 ? counterObj+1 : (row >= 2 ? row : 2));
             Category cat1 = listCat.get((int)row-2);
@@ -435,10 +432,6 @@ public class FXMLDocumentController implements Initializable{
             account.registerCategory(cat1.getName(),cat1.getDescription());
             account.registerCategory(cat2.getName(), cat2.getDescription());
             listCat = account.getUserCategories();
-            for(int i = 0 ; i < listCat.size() ; i++)
-            {
-                System.out.println(listCat.get(i).getName());
-            }
             listNodes.set((int)rowIni-2, listNodes.get((int)row-2));
             listNodes.set((int)row-2, node);
             listCont.set((int)rowIni-2, listCont.get((int)row-2));

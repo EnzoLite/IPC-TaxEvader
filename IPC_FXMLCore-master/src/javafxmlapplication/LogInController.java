@@ -257,9 +257,12 @@ public class LogInController implements Initializable{
             scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             controller.adjustW();
             });
+
             scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
                 controller.adjustH();
             });
+            stage1.setX(stage1.getX()+1);
+            stage1.setX(stage1.getX()-1);
             stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
                 controller.adjustW();
                 controller.adjustH();

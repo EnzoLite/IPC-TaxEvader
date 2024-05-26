@@ -30,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.Category;
 import model.Charge;
 import model.Acount;
@@ -61,6 +62,7 @@ public class AddExpenseController implements Initializable {
     @FXML
     private Text errorMessage;
     
+    private ChargeViewerController chargeVController;
     private String title, description;
     private double cost;
     private LocalDate costDate;
@@ -180,10 +182,14 @@ public class AddExpenseController implements Initializable {
     }
     @FXML
     void onCancelButton(ActionEvent event) {
-        cancelButton.getScene().getWindow().hide();
+        ((Stage)cancelButton.getScene().getWindow()).close();
     }
 
     @FXML
     private void onTitleTextField(ActionEvent event) {
+    }
+    public void setMainController(ChargeViewerController chargeViewController)
+    {
+        chargeVController = chargeViewController;
     }
 }

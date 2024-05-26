@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import model.Acount;
 import model.AcountDAO;
 import model.AcountDAOException;
@@ -63,6 +64,7 @@ public class UpdateUserController implements Initializable{
     private Image photos;
     private Acount account;
     private User us; 
+    private FXMLDocumentController fatherController;
     
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -76,6 +78,7 @@ public class UpdateUserController implements Initializable{
         email = us.getEmail();
         password = us.getPassword();
         photo.setImage(us.getImage());
+        back.setStyle("-fx-background-radius: 20");
     }
         
 
@@ -88,33 +91,34 @@ public class UpdateUserController implements Initializable{
         password1.setText("");
         password2.setText("");
         Node a = back.getParent();
-        
+        ((Pane)a).getChildren().remove(back);
+        FXMLDocumentController docController = FXMLDocumentController.getController();
+        docController.blockingPane.setVisible(false);
     }
 
     @FXML
     void updateFields(ActionEvent event) {
         firstName = (nameF.getText().isEmpty() ? firstName : nameF.getText());
         lastName = (!lastF.getText().isEmpty() ? lastF.getText() : lastName);
-        nickName = (nicknameF.getText().isEmpty() ? nickName : nicknameF.getText());
         email = (emailF.getText().isEmpty() ? email : emailF.getText());
         String p = password1.getText();
-        LocalDate date = LocalDate.now(); // Esto necesario para hacer otro usuario, aunque se podría guardar el tiempo de usuario original en verdad pero tengo sueño
-        if( (p == null || p.length() == 0) && (password2.getText() == null || password2.getText().length() == 0) || p.equals(password2.getText()))
+        if( ((p == null || p.length() == 0) && (password2.getText() == null || password2.getText().length() == 0)) || p.equals(password2.getText()))
         {
             if(!(p == null || p.length() == 0))
             {
                 password = p;
+            }else{
+                //Show error message
+                return;
             }
         }
         //Actualizar usuario
         //Esto crea un nuevo usuario pero no borra al anterior jaja me cago en mis muertos
-        account.logOutUser();
-        try{
-            
-        account.registerUser(firstName, lastName, email, nickName, password, photo.getImage(), date);}
-        catch(AcountDAOException e){
-           System.out.println("Error");
-        }
+        us = account.getLoggedUser();
+        us.setEmail(email);
+        us.setName(firstName);
+        us.setSurname(lastName);
+        us.setPassword(password);
         
         
     }
