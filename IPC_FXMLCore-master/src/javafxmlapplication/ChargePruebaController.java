@@ -65,15 +65,15 @@ public class ChargePruebaController {
     }
     @FXML
     void move(MouseEvent event) {
-        fatherController.moveCat(node, event, cPC);
+        //fatherController.moveCat(node, event, cPC);
     }
     @FXML
     void moving(MouseEvent event)
     {
-        fatherController.movingCat(node, event, cPC);
+        //fatherController.movingCat(node, event, cPC);
     }
     @FXML
     void moved(MouseEvent event) {
-        fatherController.movedCat(node, event, cPC);
+        //fatherController.movedCat(node, event, cPC);
     }
 }

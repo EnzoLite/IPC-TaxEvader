@@ -70,6 +70,7 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     private Button buttonOut;
     
+    private Category othersA;
     private int counterObj;
     
     private VBox animatedPanel;
@@ -140,8 +141,16 @@ public class FXMLDocumentController implements Initializable{
                 account.registerCategory("!!!!!!!!!!-Others", "#000000-0-Charges without category" );
             }catch(Exception e){}
             
-            List<Charge> list = account.getUserCharges();
+            /*List<Charge> list = account.getUserCharges();
             List<Category> listC = account.getUserCategories();
+            for(int i = 0 ; i < list.size() ; i++)
+            {
+                account.removeCharge(list.get(i));
+            }
+            for(int i = 0 ; i < listC.size() ; i++)
+            {
+                account.removeCategory(listC.get(i));
+            }*/
             Image image = account.getLoggedUser().getImage();
             if( image == null ){
                 photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
@@ -220,6 +229,12 @@ public class FXMLDocumentController implements Initializable{
     private void loadCreated(Scene scene) throws IOException
     {
         for (Category listCat1 : listCat) {
+            if(listCat1.getName().endsWith("Others"))
+            {
+                System.out.println("found");
+                othersA = listCat1;
+                ChargeViewerController.setOthers(listCat1);
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/prueba.fxml"));
             Node obj = loader.load();
             listNodes.add(obj);
@@ -362,8 +377,14 @@ public class FXMLDocumentController implements Initializable{
             try{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddExpense.fxml"));
                 Scene scene = new Scene(loader.load());
+                AddExpenseController contr = loader.getController();
+                contr.setDocumentController(controllerL);
                 Stage st = new Stage();
                 st.initOwner((Stage)back.getScene().getWindow());             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
+                FXMLLoader loaders = new FXMLLoader(getClass().getResource("../view/ChargeViewer.fxml"));
+                loaders.load();
+                ChargeViewerController chargeVController = loaders.getController();
+                contr.setMainController(chargeVController);
                 st.initModality(Modality.WINDOW_MODAL);
                 Pane pane = new Pane();
                 pane.setOpacity(0.5);
@@ -404,7 +425,10 @@ public class FXMLDocumentController implements Initializable{
             }catch(IOException e){e.printStackTrace();}
         });
     }
-    
+   List<PruebaController> getControllerList()
+   {
+       return this.listCont;
+   }
     void moveCat(Node node, MouseEvent event, PruebaController pC)
     {
         node.toFront();

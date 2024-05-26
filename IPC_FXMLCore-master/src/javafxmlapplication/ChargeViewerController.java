@@ -73,7 +73,7 @@ public class ChargeViewerController implements Initializable {
     @FXML
     private Text title;
 
-
+    private static Category othersA;
     @FXML
     private TextArea descriptionArea;
 
@@ -89,6 +89,10 @@ public class ChargeViewerController implements Initializable {
     private double bX, bY;
     private int chargeCounter;
     private PruebaController controllerP;
+    static void setOthers(Category othersAs)
+    {
+        othersA = othersAs;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -123,8 +127,8 @@ public class ChargeViewerController implements Initializable {
         this.scene23 = scene;
         controllerL = controller;
         this.cat = cat;
-        this.title.setText(cat.getName());
-        this.descriptionArea.setText(cat.getDescription().split("-")[1]);
+        this.title.setText(cat.getName().split("-")[1]);
+        this.descriptionArea.setText(cat.getDescription().split("-")[2]);
         loadCharges();
         this.controllerP = controllerP;
     }
@@ -324,9 +328,58 @@ public class ChargeViewerController implements Initializable {
         addChargeB.setLayoutY((bY+0.0)*back.getHeight());
         goBack.setLayoutY((bY+0.0)*back.getHeight());
     }
+    private FXMLDocumentController controllerDS;
+    void setControllerDS(FXMLDocumentController controllerDS)
+    {
+        this.controllerDS = controllerDS;
+    }
     public boolean addCharge(String name, String description, double cost, int units, Image scanImage, LocalDate dateCategory, Category cat1)
     {
         try{
+            if(cat == null && cat1 == null)
+            {
+                account = Acount.getInstance();
+                account.registerCharge(name, description, cost, units, scanImage, dateCategory, othersA);
+                String[] a = othersA.getDescription().split("-");
+                Double d = Double.parseDouble(a[1])+cost;
+                othersA.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
+                List<PruebaController> listA = controllerDS.getControllerList();
+                for(int i = 0 ; i < listA.size() ; i++)
+                {
+                    if(listA.get(i).getName().equals("Others"))
+                    {
+                        controllerP = listA.get(i);
+                    }
+                }
+                if(controllerP != null)
+                {
+                    controllerP.setPrice(d.toString());
+                }
+                
+                
+                return true;
+            }else if(cat == null)
+            {
+                String[] a = cat1.getDescription().split("-");
+                Double d = Double.parseDouble(a[1])+cost;
+                cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
+                List<PruebaController> listA = controllerDS.getControllerList();
+                for(int i = 0 ; i < listA.size() ; i++)
+                {
+                    if(listA.get(i).getName().equals("Others"))
+                    {
+                        controllerP = listA.get(i);
+                    }
+                }
+                if(controllerP != null)
+                {
+                    controllerP.setPrice(d.toString());
+                }
+
+                account = Acount.getInstance();
+                account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat1);
+                return true;
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/chargePrueba.fxml"));
             Node node = loader.load();
             ChargePruebaController controllerC = loader.getController();
