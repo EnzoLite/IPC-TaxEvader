@@ -1,0 +1,15 @@
+#myAnchorPane{
+    -fx-background-color: #13305e;
+}
+
+.yellowText{
+    -fx-text-fill: #FFD700;
+}
+
+.yellowTextFields{
+    -fx-background-color: #3f3f70;
+    -fx-text-fill: #9c8403;
+    -fx-prompt-text-fill: #9c8403;
+}
+
+

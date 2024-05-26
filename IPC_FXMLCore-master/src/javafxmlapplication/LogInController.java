@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -380,7 +381,7 @@ public class LogInController implements Initializable{
             alert.showAndWait();
         }else if(output.isPresent()){
             ButtonType button1 = new ButtonType("Retry");
-            ButtonType button2 = new ButtonType("Cancel");
+            ButtonType button2 = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(AlertType.ERROR, 
                     "You have to write an existing username, check that you have written it correctly");
             alert.getButtonTypes().setAll(button1, button2);

@@ -6,6 +6,7 @@ package javafxmlapplication;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.Acount;
+import model.AcountDAO;
 import model.AcountDAOException;
 import model.User;
 
@@ -61,6 +63,7 @@ public class UpdateUserController implements Initializable{
     private Image photos;
     private Acount account;
     private User us; 
+    
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         try{
@@ -95,6 +98,7 @@ public class UpdateUserController implements Initializable{
         nickName = (nicknameF.getText().isEmpty() ? nickName : nicknameF.getText());
         email = (emailF.getText().isEmpty() ? email : emailF.getText());
         String p = password1.getText();
+        LocalDate date = LocalDate.now(); // Esto necesario para hacer otro usuario, aunque se podría guardar el tiempo de usuario original en verdad pero tengo sueño
         if( (p == null || p.length() == 0) && (password2.getText() == null || password2.getText().length() == 0) || p.equals(password2.getText()))
         {
             if(!(p == null || p.length() == 0))
@@ -103,5 +107,15 @@ public class UpdateUserController implements Initializable{
             }
         }
         //Actualizar usuario
+        //Esto crea un nuevo usuario pero no borra al anterior jaja me cago en mis muertos
+        account.logOutUser();
+        try{
+            
+        account.registerUser(firstName, lastName, email, nickName, password, photo.getImage(), date);}
+        catch(AcountDAOException e){
+           System.out.println("Error");
+        }
+        
+        
     }
 }

@@ -104,7 +104,7 @@ public class SignUpNameController implements Initializable {
         passInfLabel.setVisible(false);
         nextButton.setDisable(true);
     } 
-
+    
     @FXML
     private void onNextButton(ActionEvent event) throws IOException, AcountDAOException {
         counter++;
@@ -112,7 +112,7 @@ public class SignUpNameController implements Initializable {
             nextButton.setDisable(true);
             name = signUpTextField.getText();
             surname = surnameTextField.getText();
-            signUpTextField.setText(nickName);
+            signUpTextField.setText(nickName); 
             signUpErrorMessage.setText("");
             signUpInstance.setText("Nick Name");
             signUpInstance.setX(-5);
