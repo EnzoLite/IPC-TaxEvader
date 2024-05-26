@@ -127,8 +127,8 @@ public class ChargeViewerController implements Initializable {
         this.scene23 = scene;
         controllerL = controller;
         this.cat = cat;
-        this.title.setText(cat.getName());
-        this.descriptionArea.setText(cat.getDescription().split("-")[1]);
+        this.title.setText(cat.getName().split("-")[1]);
+        this.descriptionArea.setText(cat.getDescription().split("-")[2]);
         loadCharges();
         this.controllerP = controllerP;
     }
