@@ -8,7 +8,7 @@
 <StackPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="500.0" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.ChargePruebaController">
    <children>
       <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="98.0" prefWidth="395.0" styleClass="buttons" />
-      <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" StackPane.alignment="CENTER_LEFT">
+      <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" wrappingWidth="74.13000106811523" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
             <Insets left="100.0" />
          </StackPane.margin>
@@ -18,11 +18,11 @@
             <Insets left="20.0" />
          </StackPane.margin>
       </Button>
-      <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" wrappingWidth="24.13671875" StackPane.alignment="CENTER_RIGHT">
+      <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" wrappingWidth="74.13671875" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
             <Insets right="65.0" />
          </StackPane.margin>
       </Text>
-      <Text fx:id="date" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" wrappingWidth="24.13671875" />
+      <Text fx:id="date" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Text" wrappingWidth="99.13671875" />
    </children>
 </StackPane>

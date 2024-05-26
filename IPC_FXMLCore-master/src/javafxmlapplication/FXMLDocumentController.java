@@ -141,8 +141,16 @@ public class FXMLDocumentController implements Initializable{
                 account.registerCategory("!!!!!!!!!!-Others", "#000000-0-Charges without category" );
             }catch(Exception e){}
             
-            List<Charge> list = account.getUserCharges();
+            /*List<Charge> list = account.getUserCharges();
             List<Category> listC = account.getUserCategories();
+            for(int i = 0 ; i < list.size() ; i++)
+            {
+                account.removeCharge(list.get(i));
+            }
+            for(int i = 0 ; i < listC.size() ; i++)
+            {
+                account.removeCategory(listC.get(i));
+            }*/
             Image image = account.getLoggedUser().getImage();
             if( image == null ){
                 photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
