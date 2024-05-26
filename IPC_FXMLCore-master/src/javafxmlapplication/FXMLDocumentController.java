@@ -201,10 +201,10 @@ public class FXMLDocumentController implements Initializable{
         double vars = ((120*(grid.getRowCount()-2)+177) > scene.getHeight() ? (120*(grid.getRowCount()-2)+177) : scene.getHeight() );
         back.setPrefHeight(vars);
         scrollPane.setPrefHeight(scene.getHeight());
-        grid.setPrefHeight(scene.getHeight());
+        grid.setPrefHeight(vars);
         back.setMaxHeight(scene.getHeight());
         scrollPane.setMaxHeight(scene.getHeight());
-        grid.setMaxHeight(scene.getHeight());
+        grid.setMaxHeight(vars);
         adder.setLayoutY((bY+0.0)*back.getHeight()); 
     }
     
