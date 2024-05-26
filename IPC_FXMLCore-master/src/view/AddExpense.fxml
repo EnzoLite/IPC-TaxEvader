@@ -13,11 +13,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.AddExpenseController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="background" stylesheets="@../styles/defaultStyles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxmlapplication.AddExpenseController">
    <top>
       <AnchorPane prefHeight="89.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="12.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add an expense" textAlignment="CENTER" wrappingWidth="775.13671875">
+            <Text layoutX="12.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Add an expense" textAlignment="CENTER" wrappingWidth="775.13671875">
                <font>
                   <Font size="50.0" />
                </font>
@@ -41,56 +41,56 @@
             <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add the cost:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Add the cost:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of the expense:" textOrigin="TOP" wrappingWidth="182.859375" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Date of the expense:" textOrigin="TOP" wrappingWidth="182.859375" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title or name:" textOrigin="TOP" GridPane.halignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Title or name:" textOrigin="TOP" GridPane.halignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select category:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Select category:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Image of the ticket: (Optional)" textAlignment="CENTER" textOrigin="TOP" wrappingWidth="188.029296875" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Image of the ticket: (Optional)" textAlignment="CENTER" textOrigin="TOP" wrappingWidth="188.029296875" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <TextField fx:id="titleTextField" maxWidth="-Infinity" minWidth="-Infinity" onAction="#onTitleTextField" onKeyReleased="#onTitleTextField" prefHeight="35.0" prefWidth="350.0" promptText="Title or name" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <TextField fx:id="titleTextField" maxWidth="-Infinity" minWidth="-Infinity" onAction="#onTitleTextField" onKeyReleased="#onTitleTextField" prefHeight="35.0" prefWidth="350.0" promptText="Title or name" styleClass="textfields" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <SplitMenuButton fx:id="categoryPicker" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onCategoryPicker" prefHeight="30.0" prefWidth="210.0" text="Select category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <SplitMenuButton fx:id="categoryPicker" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onCategoryPicker" prefHeight="30.0" prefWidth="210.0" style="-fx-effect: red;" styleClass="buttons" text="Select category" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="16.0" />
                </font>
             </SplitMenuButton>
-            <TextField fx:id="costTextField" maxWidth="-Infinity" onKeyReleased="#onCostTextField" prefHeight="35.0" prefWidth="350.0" promptText="Cost of the expense" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <TextField fx:id="costTextField" maxWidth="-Infinity" onKeyReleased="#onCostTextField" prefHeight="35.0" prefWidth="350.0" promptText="Cost of the expense" styleClass="textfields" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <DatePicker fx:id="datePicker" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onDatePicker" prefHeight="30.0" prefWidth="210.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <Button fx:id="ticketButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onTicket" prefHeight="100.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <DatePicker fx:id="datePicker" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onDatePicker" prefHeight="30.0" prefWidth="210.0" styleClass="buttons" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <Button fx:id="ticketButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onTicket" prefHeight="100.0" prefWidth="120.0" styleClass="buttons" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <graphic>
                   <ImageView fx:id="ticket" fitHeight="100.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
             </Button>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <Button fx:id="acceptButton" layoutX="398.0" layoutY="11.0" mnemonicParsing="false" onAction="#onAcceptButton" text="Accept" />
-                  <Button fx:id="cancelButton" layoutX="327.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
+                  <Button fx:id="acceptButton" layoutX="398.0" layoutY="11.0" mnemonicParsing="false" onAction="#onAcceptButton" styleClass="buttons" text="Accept" />
+                  <Button fx:id="cancelButton" layoutX="327.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCancelButton" styleClass="buttons" text="Cancel" />
                   <Text fx:id="errorMessage" fill="RED" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="305.13671875">
                      <font>
                         <Font size="16.0" />
@@ -98,12 +98,12 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Description:" textOrigin="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <TextField fx:id="descriptionTextField" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#onDescriptionTextField" prefHeight="35.0" prefWidth="350.0" promptText="Description" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <TextField fx:id="descriptionTextField" maxWidth="-Infinity" minWidth="-Infinity" onKeyReleased="#onDescriptionTextField" prefHeight="35.0" prefWidth="350.0" promptText="Description" styleClass="textfields" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="16.0" />
                </font>
