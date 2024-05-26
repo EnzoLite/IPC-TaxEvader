@@ -32,6 +32,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +40,7 @@ import model.Acount;
 import model.AcountDAOException;
 import model.Category;
 import model.Charge;
+import view.AddCategoryController;
 
 
 //grid.add((Node) loader.load(), width, height, row.spane, column.span)
@@ -375,23 +377,26 @@ public class FXMLDocumentController implements Initializable{
                 st.setMinHeight(600);
                 st.setWidth(850);
                 st.setMinWidth(850);
+                st.setResizable(false);
                 try{
                     st.showAndWait();
                 }catch(IllegalStateException e){}
                 pane.setVisible(false);
-            }catch(IOException e){System.out.println("Hey MG");}
+            }catch(IOException e){ e.printStackTrace();}
             
             
         });
         createCat.setOnAction((c)->{
             try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/addCategory.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/AddCategory.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage st = new Stage();
+                ((AddCategoryController)loader.getController()).setMainController(this.controllerL);
                 st.setScene(scene);
                 st.show();
                 st.setHeight(600);
                 st.setWidth(900);
+                st.setResizable(false);
                 try{
                     st.showAndWait();
                 }catch(IllegalStateException e){}
@@ -401,6 +406,7 @@ public class FXMLDocumentController implements Initializable{
     
     void moveCat(Node node, MouseEvent event, PruebaController pC)
     {
+        node.toFront();
         pC.setY(event.getSceneY());
         pC.setYL(pC.getY());
     }
@@ -415,9 +421,10 @@ public class FXMLDocumentController implements Initializable{
     {
         //column == row :)
         double rowIni = GridPane.getRowIndex(node);
-        double row =(( scrollPane.getVvalue()* (grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
+        double row =(( scrollPane.getVvalue()*(grid.getHeight()-back.getHeight()) ) +event.getSceneY())/(grid.getHeight() / grid.getRowCount());
+        System.out.println(row);
         try{
-            row = (row >= counterObj+2 ? counterObj : (row >= 2 ? row : 2));
+            row = (row >= counterObj+2 ? counterObj+1 : (row >= 2 ? row : 2));
             Category cat1 = listCat.get((int)row-2);
             String[] st1 = cat1.getName().split("-");
             Category cat2 = listCat.get((int)rowIni-2);
@@ -444,6 +451,55 @@ public class FXMLDocumentController implements Initializable{
         
         node.setTranslateY(0);
         event.consume();
+    }
+        public boolean addCategory(String name1, String description1, Color color)
+        {
+            try{
+   
+                for(int i = 0 ; i < listCont.size() ; i++)
+                {
+                    if(name1.equals(listCont.get(i).getName())){ return false; }
+                }
+                StringBuilder pos = new StringBuilder(((Integer)counterObj).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append(filler); }
+                pos.append("-");
+                String colors = color.toString();
+                colors = "#"+colors.substring(2);
+                System.out.println("Hello");
+                boolean added = account.registerCategory(pos.toString()+name1, colors+"-"+description1);
+                if(added)
+                {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/prueba.fxml"));
+                    Node obj = loader.load();
+                    PruebaController pController = loader.getController();
+                    pController.setName(name1);
+                    pController.setPrice(description1);
+                    pController.setRectangle(colors);
+                    pController.setFatherController(controllerL, obj, pController,2+counterObj);
+                    listCont.add(pController);
+                    listCat = account.getUserCategories();
+                    listNodes.add(obj);
+                    if(2+counterObj <= 3)
+                    {
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.getRowConstraints().set(2+counterObj++, rowC);
+                        grid.setPrefHeight(177+120*2);
+                    }else{
+                        grid.add(obj, 0, 2+counterObj, 3, 1);
+                        grid.setPrefHeight(grid.getPrefHeight()+120 );
+                        if(grid.getRowConstraints().size() <= 2+counterObj)
+                        {
+                            grid.getRowConstraints().add(rowC);
+                        }else{
+                            grid.getRowConstraints().set(2+counterObj, rowC);
+                        }
+                        counterObj++;
+                    }
+                }
+                
+            }catch(AcountDAOException | IOException e){e.printStackTrace();}
+            return true;
+        }
     }
     /*
             try{
@@ -498,4 +554,3 @@ public class FXMLDocumentController implements Initializable{
             }catch(AcountDAOException e){}
             catch(IOException b){}
     */
-}

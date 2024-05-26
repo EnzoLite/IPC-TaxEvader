@@ -70,5 +70,5 @@ public class PruebaController{
     {
         this.price.setText(price);
     }
-    void setRectangle(String color){this.rectangle.setStyle("-fx-background-color: "+color);}
+    void setRectangle(String color){this.rectangle.setStyle("-fx-fill: "+color);}
 }

@@ -44,14 +44,19 @@ public class AddExpenseController implements Initializable {
 
     @FXML
     private TextField titleTextField;
+    @FXML
     private SplitMenuButton categoryPicker;
+    @FXML
     private TextField costTextField;
+    @FXML
     private DatePicker datePicker;
+    @FXML
     private ImageView ticket;
     @FXML
     private Button acceptButton;
     @FXML
     private Button cancelButton;
+    @FXML
     private TextField descriptionTextField;
     @FXML
     private Text errorMessage;
@@ -86,12 +91,12 @@ public class AddExpenseController implements Initializable {
     void onTitleTextField(KeyEvent event) {
         title = titleTextField.getText();
     }
-    
+    @FXML
     void onDescriptionTextField(KeyEvent event) {
         description = descriptionTextField.getText();
     }
-
-    private void onCategoryPicker(ActionEvent event) {
+    @FXML
+    void onCategoryPicker(ActionEvent event) {
         try{
             categories = signUp.getUserCategories();
             for(int i = 0; i < categories.size(); i++){
@@ -103,7 +108,7 @@ public class AddExpenseController implements Initializable {
             errorMessage.setText("The category selected does not exist");
         }
     }
-
+    @FXML
     void onCostTextField(KeyEvent event) {
         String cost_string = costTextField.getText();
         boolean numerical;
@@ -123,7 +128,7 @@ public class AddExpenseController implements Initializable {
         }
         
     }
-
+    @FXML
     private void onDatePicker(ActionEvent event) {
         LocalDate today = LocalDate.now();
         if(datePicker.getValue().isAfter(today)){
@@ -134,7 +139,7 @@ public class AddExpenseController implements Initializable {
             costDate = datePicker.getValue();
         }
     }
-
+    @FXML
     void onTicket(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource");
@@ -167,6 +172,12 @@ public class AddExpenseController implements Initializable {
         }
     }
 
+    @FXML
+    void onColorPicker()
+    {
+        
+        
+    }
     @FXML
     void onCancelButton(ActionEvent event) {
         cancelButton.getScene().getWindow().hide();
