@@ -78,6 +78,10 @@ public class SignUpNameController implements Initializable {
     private Button imageOption;
     @FXML
     private ImageView imageView;
+    @FXML
+    private Text err1;
+    @FXML
+    private Text err2;
     
     private boolean correctPass = false, correctNN = true, surname_check = false;
     byte messageE = 0;
@@ -125,8 +129,10 @@ public class SignUpNameController implements Initializable {
         s4.setNode(circle4); s4.setDuration(Duration.millis(750)); s4.setCycleCount(TranslateTransition.INDEFINITE); s4.setByX(0.25); s4.setByY(0.25); s4.setAutoReverse(true);
         s5.setNode(circle5); s5.setDuration(Duration.millis(750)); s5.setCycleCount(TranslateTransition.INDEFINITE); s5.setByX(0.25); s5.setByY(0.25); s5.setAutoReverse(true);
         s1.play();
-        
-        
+        err1.setVisible(false);
+        err2.setVisible(false);
+        err1.setText("❌️ Only alphanumerical characters allowed ❌"); err1.setFill(Color.web("#ff0f0f"));
+        err2.setText("❌ Password must have at least 6 characters ❌"); err2.setFill(Color.web("#ff0f0f"));
     } 
     
     @FXML
@@ -187,6 +193,9 @@ public class SignUpNameController implements Initializable {
             signUpTextField.setVisible(false);
             passInfLabel.setVisible(true);
             signUpInstance.setText("Password");
+            err1.setVisible(true);
+            err2.setVisible(true);
+            
             signUpInstance.setX(4);
             passwordTextField.setVisible(true);
             passwordTextField.setPromptText("Password");
@@ -201,6 +210,8 @@ public class SignUpNameController implements Initializable {
         else if(counter == 4){
             password = passwordTextField.getText();            
             correctPass = true;
+            err1.setVisible(false);
+            err2.setVisible(false);
             signUpErrorMessage.setText("");
             passInfLabel.setVisible(false);
             signUpTextField.clear();
@@ -276,6 +287,8 @@ public class SignUpNameController implements Initializable {
         else if(counter == 2){
             passInfLabel.setVisible(false);
             nextButton.setDisable(false);
+            err1.setVisible(false);
+            err2.setVisible(false);
             signUpErrorMessage.setVisible(false);
             signUpInstance.setText("Email");
             signUpInstance.setX(22);
@@ -291,6 +304,8 @@ public class SignUpNameController implements Initializable {
             nextButton.setDisable(false);
             signUpErrorMessage.setVisible(false);
             signUpInstance.setText("Password");
+            err1.setVisible(true);
+            err2.setVisible(true);
             signUpInstance.setX(4);
             signUpTextField.setPromptText("Password");
             circle5.setFill(notDone);
@@ -352,19 +367,38 @@ public class SignUpNameController implements Initializable {
     @FXML
     private void onPasswordTextField(KeyEvent event) {
         String password_listener = passwordTextField.getText();
-        if(password_listener.contains(" ")){
+        if(!password_listener.matches("[a-zA-Z0-9]*")){
             correctPass = false;
             messageE |= 1;
             signUpErrorMessage.setVisible(true);
-            signUpErrorMessage.setText("Your password cannot have spaces");
+            err1.setText("❌️ Only alphanumerical characters allowed ❌");
+            err1.setFill(Color.web("#ff0f0f"));
+            //signUpErrorMessage.setText("✔❌️ Only alphanumerical characters allowed ❌✔️");
+            if(password_listener.length() > 5) {
+                err2.setText("✔ Password must have at least 6 characters ✔");
+                err2.setFill(Color.web("#1fff44"));
+            }
+            else{
+                err2.setText("❌ Password must have at least 6 characters ❌");
+                err2.setFill(Color.web("#ff0f0f"));
+            }
             nextButton.setDisable(true);
         }
         else{
+            err1.setText("✔️ Only alphanumerical characters allowed ✔");
+            err1.setFill(Color.web("#1fff44"));
             correctPass = true;
-            if(correctPass && password_listener.length() > 5) nextButton.setDisable(false);
-            else nextButton.setDisable(true);
+            if(correctPass && password_listener.length() > 5) {nextButton.setDisable(false);
+                err2.setText("✔ Password must have at least 6 characters ✔");
+                err2.setFill(Color.web("#1fff44"));
+            }
+            else {nextButton.setDisable(true);
+                
+                err2.setText("❌ Password must have at least 6 characters ❌");
+                err2.setFill(Color.web("#ff0f0f"));
+            }
             if(messageE == 1) signUpErrorMessage.setText("");
-            else if(messageE == 3) signUpErrorMessage.setText("Only alphanumerical characters are allowed");
+            //else if(messageE == 3) signUpErrorMessage.setText("Only alphanumerical characters are allowed");
             messageE &= 2;
             
         }

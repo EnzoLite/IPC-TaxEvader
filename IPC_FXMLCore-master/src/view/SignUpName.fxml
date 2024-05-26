@@ -74,5 +74,13 @@
             <Font size="16.0" />
          </font>
       </Label>
+      <Text fx:id="err1" fill="#1fff44" layoutX="28.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="133.6083984375">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Text fx:id="err2" layoutX="28.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="133.6083984375">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
    </children>
 </AnchorPane>
