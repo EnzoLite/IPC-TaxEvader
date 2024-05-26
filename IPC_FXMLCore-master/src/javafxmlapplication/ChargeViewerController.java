@@ -321,8 +321,21 @@ public class ChargeViewerController implements Initializable {
             ChargePruebaController controllerC = loader.getController();
             listNodes.add(node);
             listCont.add(controllerC);
-            listCharges = account.getUserCharges();
             account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat);
+            List<Charge> aux = account.getUserCharges();
+            int counter = 0;
+            for(int i = 0 ; i < aux.size() ; i++)
+            {
+                if(aux.get(i).getCategory().equals(cat)){ 
+                    counter++; 
+                    if(counter > listCharges.size())
+                    {
+                        listCharges.add(aux.get(i));
+                        break;
+                    }
+                }
+                
+            }
             controllerC.setFatherController(controllerL, node, controllerC);
             if(2+chargeCounter <= 3)
             {
