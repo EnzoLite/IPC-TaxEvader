@@ -81,6 +81,7 @@ public class PruebaController{
             Stage stage1 = (Stage) node.getScene().getWindow();
             ChargeViewerController controller = loader.getController();
             stage1.setScene(scene);
+            stage1.setFullScreen(true);
             scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             controller.adjustW();
             });
