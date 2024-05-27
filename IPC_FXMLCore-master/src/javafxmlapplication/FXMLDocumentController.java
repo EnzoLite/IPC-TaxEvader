@@ -140,8 +140,8 @@ public class FXMLDocumentController implements Initializable{
             try{
                 account.registerCategory("!!!!!!!!!!-Others", "#000000-0-Charges without category" );
             }catch(Exception e){}
-            
-            /*List<Charge> list = account.getUserCharges();
+            /*
+            List<Charge> list = account.getUserCharges();
             List<Category> listC = account.getUserCategories();
             for(int i = 0 ; i < list.size() ; i++)
             {

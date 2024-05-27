@@ -120,6 +120,30 @@ public class ChargeViewerController implements Initializable {
             ((Stage)sceneL.getWindow()).setFullScreen(true);
             ((Stage)sceneL.getWindow()).setFullScreen(false);
         });
+        userB.setOnAction((c)->{
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrintExpenseRecord.fxml"));
+                Scene scene = new Scene(loader.load());
+                Stage st = new Stage();
+                st.setScene(scene);
+                Stage stage = ((Stage)this.userB.getScene().getWindow());
+                st.initOwner(stage);             //Falta un overlay (gris) sobre la pantalla origin mientras stage está activo
+                st.initModality(Modality.WINDOW_MODAL);
+//                st.setHeight(600);
+//                st.setWidth(900);
+                Pane notUsable = new Pane();
+                notUsable.setStyle("-fx-background-color: lightgray");
+                notUsable.setPrefSize(back.getWidth(), back.getHeight());
+                notUsable.setVisible(true);
+                notUsable.setOpacity(0.5);
+                st.setResizable(false);
+                try{
+                    st.showAndWait();
+                    notUsable.setVisible(false);
+                }catch(IllegalStateException e){}
+            }catch(IOException e){e.printStackTrace();}
+            
+        });
 
     }
     public void setCat(Category cat, ChargeViewerController controller, Scene scene, PruebaController controllerP)
