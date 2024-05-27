@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -69,6 +70,7 @@ public class PrintExpenseRecordController implements Initializable {
     @FXML
     private void goBack(ActionEvent event) {
         //no fucking idea on how to do this 
+        ((Stage)backButton.getScene().getWindow()).close();
     }
 
 }
