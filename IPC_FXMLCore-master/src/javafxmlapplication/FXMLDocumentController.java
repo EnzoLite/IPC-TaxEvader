@@ -153,11 +153,11 @@ public class FXMLDocumentController implements Initializable{
             }*/
             Image image = account.getLoggedUser().getImage();
             if( image == null ){
-                photo.setImage(new Image("../../resources/images/fotoDefault.jpg"));
+                photo.setImage(new Image("../../resources/images/user-xxl.png"));
             }else{
                 photo.setImage(image);
             }
-            //Image image2 = new Image("../../resources/images/fotoLogOut.jpg");
+            //Image image2 = new Image("../../resources/images/fotoDefault.jpg");
             //logOut.setImage(image2);
             buttonOut.setOnAction((c)->{
                 account.logOutUser();
@@ -176,6 +176,7 @@ public class FXMLDocumentController implements Initializable{
             rowC.setMinHeight(120);
             rowC.setPrefHeight(120);
             rowC.setMaxHeight(Double.MAX_VALUE);
+            
         }catch( AcountDAOException e){e.printStackTrace();}
         catch(IOException e){e.printStackTrace();}
     }
