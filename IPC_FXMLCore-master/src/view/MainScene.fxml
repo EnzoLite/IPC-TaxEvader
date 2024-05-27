@@ -44,7 +44,10 @@
                   </Button>
                   <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateUser" styleClass="buttons" GridPane.halignment="LEFT">
                      <graphic>
-                        <ImageView fx:id="photo" fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="photo" fitHeight="61.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/user-xxl.png" />
+                           </image></ImageView>
                      </graphic>
                      <GridPane.margin>
                         <Insets left="40.0" right="40.0" />
