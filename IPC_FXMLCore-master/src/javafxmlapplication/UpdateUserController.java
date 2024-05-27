@@ -131,6 +131,11 @@ public class UpdateUserController implements Initializable{
         us.setSurname(lastName);
         us.setPassword(password);
         us.setImage(photo.getImage());
+        Node a = back.getParent();
+        ((Pane)a).getChildren().remove(back);
+        FXMLDocumentController docController = FXMLDocumentController.getController();
+        ((Stage)docController.blockingPane.getScene().getWindow()).setResizable(true);
+        docController.blockingPane.setVisible(false);
     }
     @FXML
     void setPhoto(ActionEvent event) {
