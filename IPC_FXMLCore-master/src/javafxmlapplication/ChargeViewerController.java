@@ -176,11 +176,7 @@ public class ChargeViewerController implements Initializable {
                     ChargePruebaController cc = loader.getController();
                     listCont.add(cc);
                     listNodes.add(node);
-                    StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
-                    for(int o = pos.length(); o < 10 ; o++){ pos.append("!"); }
-                    pos.append("-");
-                    pos.append(listAux.get(i).getName());
-                    cc.setName(pos.toString());
+                    cc.setName(listAux.get(i).getName().split("-")[1]);
                     cc.setDate(listAux.get(i).getDate().toString());
                     cc.setPrice(((Double)listAux.get(i).getCost()).toString());
                     cc.setFatherController(controllerL,  node, cc);
@@ -369,7 +365,20 @@ public class ChargeViewerController implements Initializable {
             if(cat == null && cat1 == null)
             {
                 account = Acount.getInstance();
-                account.registerCharge(name, description, cost, units, scanImage, dateCategory, othersA);
+                List<Charge> list = account.getUserCharges();
+                int counter = 0; 
+                for(int i = 0 ; i < list.size() ; i++)
+                {
+                    if(list.get(i).getCategory().equals(othersA))
+                    {
+                        counter++;
+                    }
+                }
+                StringBuilder pos = new StringBuilder(((Integer)counter).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
+                pos.append("-");
+                pos.append(name);
+                account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, othersA);
                 String[] a = othersA.getDescription().split("-");
                 Double d = Double.parseDouble(a[1])+cost;
                 othersA.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
@@ -390,6 +399,21 @@ public class ChargeViewerController implements Initializable {
                 return true;
             }else if(cat == null)
             {
+                                List<Charge> list = account.getUserCharges();
+                int counter = 0; 
+                for(int i = 0 ; i < list.size() ; i++)
+                {
+                    if(list.get(i).getCategory().equals(cat1))
+                    {
+                        counter++;
+                    }
+                }
+                StringBuilder pos = new StringBuilder(((Integer)counter).toString());
+                for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
+                pos.append("-");
+                pos.append(name);
+                account = Acount.getInstance();
+                account.registerCharge(pos.toString(), description, cost, units, scanImage, dateCategory, cat1);
                 String[] a = cat1.getDescription().split("-");
                 Double d = Double.parseDouble(a[1])+cost;
                 cat1.setDescription(a[0]+"-"+d.toString()+"-"+a[2]);
@@ -405,9 +429,6 @@ public class ChargeViewerController implements Initializable {
                 {
                     controllerP.setPrice(d.toString());
                 }
-
-                account = Acount.getInstance();
-                account.registerCharge(name, description, cost, units, scanImage, dateCategory, cat1);
                 return true;
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/chargePrueba.fxml"));
@@ -417,6 +438,7 @@ public class ChargeViewerController implements Initializable {
             listCont.add(controllerC);
             StringBuilder pos = new StringBuilder(((Integer)chargeCounter).toString());
             for(int i = pos.length(); i < 10 ; i++){ pos.append("!"); }
+            pos.append("-");
             pos.append(name);
             controllerC.setName(name);
             controllerC.setDate(dateCategory.toString());
