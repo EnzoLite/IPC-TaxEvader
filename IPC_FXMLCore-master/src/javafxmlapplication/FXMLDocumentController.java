@@ -316,8 +316,9 @@ public class FXMLDocumentController implements Initializable{
         createCat.setPrefWidth(animatedPanel.getMaxWidth());
         createCharge.setPrefWidth(animatedPanel.getMaxWidth());
         exits.setPrefWidth(animatedPanel.getMaxWidth());
-        
-        
+        createCat.setStyle("-fx-text-fill: black");
+        createCharge.setStyle("-fx-text-fill: black");
+        exits.setStyle("-fx-text-fill: black");
         TranslateTransition translateTransition = new TranslateTransition((Duration)Duration.millis(250), animatedPanel);
         translateTransition.setFromY((double)adder.getHeight());
         translateTransition.setToY(0);

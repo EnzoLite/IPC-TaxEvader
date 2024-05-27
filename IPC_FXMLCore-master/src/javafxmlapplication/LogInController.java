@@ -290,6 +290,32 @@ public class LogInController implements Initializable{
             }
         }
     }
+    public void enterMain(Stage stage1)
+    {
+        
+        try{
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainScene.fxml"));
+                        Scene scene = new Scene(loader.load()); // Load the FXML file and create the scene
+                        stage1.setScene(scene);
+                        FXMLDocumentController controller = loader.getController(); // Now the controller is initialized
+
+                        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+                        controller.adjustW();
+                        });
+
+                        scene.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+                            controller.adjustH();
+                        });
+                        stage1.setX(stage1.getX()+1);
+                        stage1.setX(stage1.getX()-1);
+                        stage1.fullScreenProperty().addListener((observable, oldValue, NewValue)->{
+                            controller.adjustW();
+                            controller.adjustH();
+                        });
+                        controller.setControllerL(controller, scene);
+                        controller.addButtons();
+                    }catch(IOException e){ e.printStackTrace(); }
+    }
     public void adjustW()//Sacar el ratio de posicion para ajustarlo desde el fix item hasta llegar a cierto tamaño y cambiar la distribucion de escena
     {
         try{

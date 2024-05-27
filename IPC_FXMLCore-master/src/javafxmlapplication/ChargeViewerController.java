@@ -144,6 +144,10 @@ public class ChargeViewerController implements Initializable {
             }catch(IOException e){e.printStackTrace();}
             
         });
+        goBack.setOnAction((c)->{
+            LogInController.getLogInController().enterMain((Stage)goBack.getScene().getWindow());
+            
+        });
 
     }
     public void setCat(Category cat, ChargeViewerController controller, Scene scene, PruebaController controllerP)
@@ -240,7 +244,8 @@ public class ChargeViewerController implements Initializable {
         //Buttons size
         createCharge.setPrefWidth(animatedPanel.getMaxWidth());
         exits.setPrefWidth(animatedPanel.getMaxWidth());
-
+        createCharge.setStyle("-fx-text-fill: black");
+        exits.setStyle("-fx-text-fill: black");
 
         TranslateTransition translateTransition = new TranslateTransition((Duration)Duration.millis(180), animatedPanel);
         translateTransition.setFromY((double)addChargeB.getHeight());
