@@ -75,7 +75,8 @@ public class ChargeViewerController implements Initializable {
 
     private static Category othersA;
     @FXML
-    private TextArea descriptionArea;
+    private Text descriptionArea;
+
 
     private Acount account;
 
